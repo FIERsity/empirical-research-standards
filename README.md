@@ -8,20 +8,28 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.15.0 currently provides two core products: the installable Python package and a
-repository-distributed Agent Skill. Together they currently provide:
+Version 0.15.1 provides an installable Python package and a repository-distributed Agent Skill.
+Capabilities are grouped by maturity rather than presented as equally complete.
+
+Core building blocks:
 
 - cardinality-checked data merges and panel-structure diagnostics;
 - validated OLS with classical, HC1, and one-way clustered covariance;
 - one-way and two-way fixed effects with robust and one-/two-way clustered covariance;
-- classic DID, TWFE event studies, cohort-time staggered DID, and Sun-Abraham event studies;
-- entity-cluster bootstrap inference and simultaneous bands for staggered DID;
-- formal categorical heterogeneity tests, placebo timing, covariance sensitivity,
-  leave-one-cluster-out diagnostics, permutation inference, and wild cluster bootstrap;
+- classic treated-by-post DID;
+- standardized model tables, plotting data, CSV/Excel/LaTeX exports, and reproducibility
+  metadata;
+- the `apply-empirical-standards` Agent Skill for auditable data-to-result workflows.
+
+Advanced components with material restrictions:
+
+- TWFE event studies; unconditional balanced-panel cohort-time staggered DID; and a
+  never-treated, cohort-interacted Sun-Abraham-style event study;
+- entity-cluster bootstrap inference and simultaneous bands for the limited staggered-DID path;
+- categorical FE heterogeneity tests, placebo timing, covariance sensitivity,
+  leave-one-cluster-out diagnostics, permutation inference, and restricted wild cluster bootstrap;
 - explicit IV/2SLS with first-stage, Wu-Hausman, Sargan, and robust Wooldridge score tests;
-- multi-endogenous-variable sample-rank diagnostics, classical conditional first-stage F,
-  HC1/clustered conditional Wald tests, and conditional partial R-squared without mislabeling
-  them as Kleibergen-Paap statistics;
+- multi-endogenous-variable sample-rank and conditional relevance diagnostics;
 - panel IV/2SLS with entity/time fixed effects and single-endogenous-variable Anderson-Rubin
   weak-identification-robust tests and grid-inverted confidence sets;
 - scalable `pyhdfe` within-transformation for panel-IV structural coefficients, alongside the
@@ -29,11 +37,11 @@ repository-distributed Agent Skill. Together they currently provide:
 - opt-in absorbed-degrees finite-sample covariance for homoskedastic within panel IV, verified
   against both the indicator backend and independent R matrix algebra;
 - Bonferroni, Holm, and Benjamini-Hochberg multiple-testing adjustments;
-- standardized model tables, plotting data, CSV/Excel/LaTeX exports, and reproducibility
-  metadata;
 - deterministic Python-R numerical benchmarks for fixed effects and 2SLS.
-- the `apply-empirical-standards` Agent Skill for auditable data-to-result workflows, explicit
-  estimator selection, design-matched diagnostics, standardized outputs, and verification.
+
+Not implemented: Kleibergen-Paap diagnostics, doubly robust staggered DID, general multi-way
+HDFE, spatial econometrics, machine-learning validation, and a complete publication-table
+framework. See the [capability matrix](docs/capability_matrix.md) for exact boundaries.
 
 This is a working methodological foundation, not a complete econometrics library.
 
@@ -147,9 +155,9 @@ inversion retains every accepted value rather than assuming a connected interval
 [panel IV and Anderson-Rubin inference](docs/panel_iv_and_ar.md).
 
 Set `absorption="within"` for scalable high-dimensional panel-IV coefficient estimation. The
-within backend is cross-checked against explicit indicators, uses asymptotic covariance, and
-does not claim a finite-sample absorbed-DF correction. `summarize_first_stage` distinguishes
-conventional F from robust Wald statistics and explicitly does not label Wald/q as KP.
+default covariance is asymptotic; homoskedastic models may explicitly request the externally
+verified absorbed-DF correction. Robust and clustered absorbed-DF corrections are unavailable.
+Conditional relevance Wald tests are supporting diagnostics, not Kleibergen-Paap statistics.
 
 ### Results and exports
 
@@ -242,22 +250,30 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.15.0，核心产品包括可安装 Python 包和随仓库发布的 Agent Skill，已实现：
+当前版本为 0.15.1，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+
+核心功能：
 
 - 带基数关系约束的数据合并与面板结构诊断；
 - OLS，以及经典、HC1、单向聚类协方差；
 - 单向/双向固定效应，以及稳健、单向/双向聚类协方差；
-- 经典 DID、TWFE 事件研究、cohort-time 交错 DID、Sun-Abraham 事件研究；
-- 交错 DID 的实体聚类 bootstrap 与同时置信带；
-- 分类异质性正式检验、安慰剂时点、协方差敏感性、LOCO、置换推断、wild cluster bootstrap；
+- 经典 DID；
+- 标准结果、元数据和 CSV/Excel/LaTeX 导出；
+- `apply-empirical-standards` Agent Skill。
+
+进阶但受限：
+
+- TWFE 事件研究；要求平衡面板且无协变量调整的 cohort-time DID；要求 never-treated 对照的 Sun-Abraham 风格实现；
+- 上述交错 DID 的实体 bootstrap 与同时置信带；
+- FE 分类异质性、安慰剂、协方差敏感性、LOCO、置换和受限 wild cluster bootstrap；
 - 显式 IV/2SLS，以及第一阶段、Wu-Hausman、Sargan、稳健 Wooldridge score 检验；
-- 多内生变量样本秩、经典条件 F、HC1/聚类条件 Wald 和条件 partial R²，并明确不将其误称为 Kleibergen-Paap；
+- 多内生变量样本秩与条件相关性辅助诊断；
 - 带个体/时间固定效应的面板 IV/2SLS，以及单内生变量 Anderson-Rubin 弱识别稳健检验和网格反演置信集合；
 - 面板 IV 的 `pyhdfe` 高维 within 后端，并保留精确指示变量后端；within 协方差明确标为渐近；
 - 同方差 within 面板 IV 可显式启用吸收自由度有限样本修正，并已与指示变量后端及 R 矩阵公式核验；
 - Bonferroni、Holm、Benjamini-Hochberg 多重检验校正；
-- 标准模型表、绘图数据、CSV/Excel/LaTeX 导出与可复现元数据；
 - 固定效应和 2SLS 的确定性 Python-R 数值基准。
+- 尚未实现 KP、双重稳健交错 DID、通用多维 HDFE、空间计量、机器学习验证和完整论文制表。准确边界见[功能矩阵](docs/capability_matrix.md)。
 - `apply-empirical-standards` Agent Skill：规范数据审计、估计器选择、设计匹配的诊断、标准输出和跨软件核验。
 
 这仍是方法基础，不是完整计量经济学库。

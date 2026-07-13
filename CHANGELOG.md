@@ -2,6 +2,12 @@
 
 All notable changes are documented here.
 
+## 0.15.1 - 2026-07-13
+
+- Reclassify capabilities as core, advanced with limits, supporting diagnostics, or absent.
+- Correct stale panel-IV documentation and remove KP non-mislabeling as a capability claim.
+- Add the IV relevance diagnostics to the documented `models` namespace.
+
 ## 0.15.0 - 2026-07-13
 
 - Add absorbed-fixed-effect degrees-of-freedom correction for homoskedastic within panel IV.

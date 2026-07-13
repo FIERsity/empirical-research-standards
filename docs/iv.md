@@ -34,5 +34,5 @@ overidentification p-value proves that an instrument affects the outcome only th
 endogenous regressor.
 
 The deterministic benchmark compares Python `linearmodels` against R `fixest` for 2SLS
-coefficients and homoskedastic standard errors. Panel IV with absorbed fixed effects is not yet
-part of the public API.
+coefficients and homoskedastic standard errors. Panel IV is public but remains an advanced,
+restricted component; see `docs/panel_iv_and_ar.md`.
