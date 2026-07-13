@@ -2,6 +2,12 @@
 
 All notable changes are documented here.
 
+## 0.13.0 - 2026-07-13
+
+- Add transparent sample-rank diagnostics for multiple endogenous variables.
+- Add homoskedastic conditional excluded-instrument F tests and conditional partial R-squared.
+- Report normalized singular values without labeling them as Kleibergen-Paap statistics.
+
 ## 0.12.1 - 2026-07-13
 
 - Remove the unused third-party benchmark placeholder and its pending validation path.

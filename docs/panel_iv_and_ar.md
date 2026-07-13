@@ -29,8 +29,9 @@ disconnected or unbounded. `lower_bound` and `upper_bound` are only the envelope
 grid points; the `bounded_below` and `bounded_above` flags indicate whether the accepted set
 reaches a grid edge. A wider grid and finer spacing are required before reporting endpoints.
 
-The current AR implementation covers one endogenous regressor. Multi-endogenous-variable
-weak-identification diagnostics and Kleibergen-Paap procedures remain future work.
+The current AR implementation covers one endogenous regressor. The package provides sample-rank
+and homoskedastic conditional relevance diagnostics for multiple endogenous regressors, but
+robust conditional tests and Kleibergen-Paap procedures remain future work.
 
 `summarize_first_stage` distinguishes conventional partial F statistics from robust excluded-
 instrument Wald statistics using the stored reference distribution. It reports Wald divided

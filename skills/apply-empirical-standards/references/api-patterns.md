@@ -75,6 +75,7 @@ rules, event windows, covariance options, and bootstrap arguments are consequent
 from empirical_standards import (
     anderson_rubin_confidence_set,
     anderson_rubin_test,
+    diagnose_iv_relevance,
     fit_iv_2sls,
     fit_panel_iv_2sls,
     summarize_first_stage,
@@ -89,6 +90,13 @@ iv = fit_iv_2sls(
     cluster="region",
 )
 print(summarize_first_stage(iv))
+relevance = diagnose_iv_relevance(
+    data,
+    exogenous=["control"],
+    endogenous=["treatment"],
+    instruments=["instrument"],
+)
+print(relevance.conditional_tests)
 
 panel_iv = fit_panel_iv_2sls(
     data, "y",

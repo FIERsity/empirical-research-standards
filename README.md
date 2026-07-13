@@ -8,7 +8,7 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.12.1 currently provides two core products: the installable Python package and a
+Version 0.13.0 currently provides two core products: the installable Python package and a
 repository-distributed Agent Skill. Together they currently provide:
 
 - cardinality-checked data merges and panel-structure diagnostics;
@@ -19,6 +19,8 @@ repository-distributed Agent Skill. Together they currently provide:
 - formal categorical heterogeneity tests, placebo timing, covariance sensitivity,
   leave-one-cluster-out diagnostics, permutation inference, and wild cluster bootstrap;
 - explicit IV/2SLS with first-stage, Wu-Hausman, Sargan, and robust Wooldridge score tests;
+- multi-endogenous-variable sample-rank diagnostics, conditional first-stage F tests, and
+  conditional partial R-squared without mislabeling them as Kleibergen-Paap statistics;
 - panel IV/2SLS with entity/time fixed effects and single-endogenous-variable Anderson-Rubin
   weak-identification-robust tests and grid-inverted confidence sets;
 - scalable `pyhdfe` within-transformation for panel-IV structural coefficients, alongside the
@@ -216,8 +218,8 @@ skills/                   Agent workflows and progressive references
 ## Roadmap
 
 The next methodological priorities are externally benchmarked finite-sample covariance for
-absorbed panel IV, Kleibergen-Paap and richer multi-endogenous-variable diagnostics, and IV-specific sensitivity
-and heterogeneity tools. Spatial econometrics,
+absorbed panel IV, robust conditional relevance and Kleibergen-Paap diagnostics, and IV-specific
+sensitivity and heterogeneity tools. Spatial econometrics,
 machine-learning validation, and additional reporting formats should follow only after those
 core inference paths and external benchmarks are stable.
 
@@ -237,7 +239,7 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.12.1，核心产品包括可安装 Python 包和随仓库发布的 Agent Skill，已实现：
+当前版本为 0.13.0，核心产品包括可安装 Python 包和随仓库发布的 Agent Skill，已实现：
 
 - 带基数关系约束的数据合并与面板结构诊断；
 - OLS，以及经典、HC1、单向聚类协方差；
@@ -246,6 +248,7 @@ MIT
 - 交错 DID 的实体聚类 bootstrap 与同时置信带；
 - 分类异质性正式检验、安慰剂时点、协方差敏感性、LOCO、置换推断、wild cluster bootstrap；
 - 显式 IV/2SLS，以及第一阶段、Wu-Hausman、Sargan、稳健 Wooldridge score 检验；
+- 多内生变量样本秩、条件第一阶段 F 和条件 partial R² 诊断，并明确不将其误称为 Kleibergen-Paap；
 - 带个体/时间固定效应的面板 IV/2SLS，以及单内生变量 Anderson-Rubin 弱识别稳健检验和网格反演置信集合；
 - 面板 IV 的 `pyhdfe` 高维 within 后端，并保留精确指示变量后端；within 协方差明确标为渐近；
 - Bonferroni、Holm、Benjamini-Hochberg 多重检验校正；
@@ -313,7 +316,7 @@ Skill 与 Python 包同步版本管理；其中详细方法链接相对于本仓
 
 ## 后续方向
 
-优先补充经外部基准验证的吸收式面板 IV 有限样本协方差、Kleibergen-Paap 和更完整的多内生变量诊断，以及 IV 专用异质性和敏感性工具。空间计量、机器学习验证和更多输出格式应在核心推断和外部基准稳定后扩展。
+优先补充经外部基准验证的吸收式面板 IV 有限样本协方差、稳健条件相关性与 Kleibergen-Paap 诊断，以及 IV 专用异质性和敏感性工具。空间计量、机器学习验证和更多输出格式应在核心推断和外部基准稳定后扩展。
 
 贡献新方法前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。每个估计器必须说明估计目标、假设、样本规则、默认值、协方差约定、失败条件、可运行示例、数值测试和外部比较策略。
 

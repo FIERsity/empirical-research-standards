@@ -3,3 +3,5 @@ Python,verified,0.8.0,"fit_fixed_effects(..., time_effects=True, covariance='clu
 R fixest,verified,0.14.2,"feols with K.fixef='full', G.adj=FALSE; vcov scaled N/(N-1)",fixest_results.csv,1e-10,1e-8
 Python IV,verified,0.9.0,"fit_iv_2sls(..., covariance='unadjusted')",python_iv_results.csv,1e-10,1e-8
 R fixest IV,verified,0.14.2,"feols(y ~ x | endogenous ~ z1 + z2, vcov='iid')",fixest_iv_results.csv,1e-10,1e-8
+Python IV relevance,verified,0.13.0,"diagnose_iv_relevance(...)",python_iv_relevance_results.csv,1e-10,1e-10
+R IV relevance,verified,base lm,"nested lm RSS F test",r_iv_relevance_results.csv,1e-10,1e-10

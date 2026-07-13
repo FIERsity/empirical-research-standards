@@ -12,6 +12,14 @@ researchers must not apply an F=10 rule without checking that distinction. A lar
 alone also does not settle weak-instrument concerns with multiple endogenous regressors or
 nonstandard clustering.
 
+`diagnose_iv_relevance` adds transparent multi-endogenous-variable diagnostics. For each
+endogenous regressor it tests the excluded instruments after conditioning on exogenous
+regressors and the other endogenous regressors, reporting the homoskedastic conditional F,
+reference degrees of freedom, p-value, and conditional partial R-squared. It also reports the
+sample rank of the residualized instrument-endogenous cross moment and normalized singular
+values. These are sample relevance diagnostics: they are not Kleibergen-Paap statistics, do
+not supply weak-instrument critical values, and do not establish instrument exclusion.
+
 The result reports Wu-Hausman exogeneity, homoskedastic Sargan, and robust Wooldridge score
 overidentification tests. Sargan and Wooldridge tests are unavailable in exactly identified
 models and appear as invalid/NaN rather than fabricated zeros. The robust score test is named
@@ -25,4 +33,3 @@ endogenous regressor.
 The deterministic benchmark compares Python `linearmodels` against R `fixest` for 2SLS
 coefficients and homoskedastic standard errors. Panel IV with absorbed fixed effects is not yet
 part of the public API.
-

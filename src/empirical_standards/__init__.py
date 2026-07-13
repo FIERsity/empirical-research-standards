@@ -11,6 +11,7 @@ from empirical_standards.models.iv_inference import (
     anderson_rubin_confidence_set,
     anderson_rubin_test,
 )
+from empirical_standards.models.iv_relevance import IVRelevanceDiagnostics, diagnose_iv_relevance
 from empirical_standards.models.ols import OLSResult, fit_ols
 from empirical_standards.panel.fixed_effects import FixedEffectsResult, fit_fixed_effects
 from empirical_standards.panel.iv import PanelIV2SLSResult, fit_panel_iv_2sls
@@ -22,12 +23,14 @@ __all__ = [
     "EventStudyResult",
     "FixedEffectsResult",
     "IV2SLSResult",
+    "IVRelevanceDiagnostics",
     "OLSResult",
     "PanelIV2SLSResult",
     "StaggeredDIDResult",
     "SunAbrahamResult",
     "anderson_rubin_confidence_set",
     "anderson_rubin_test",
+    "diagnose_iv_relevance",
     "fit_did",
     "fit_event_study",
     "fit_fixed_effects",
@@ -38,4 +41,4 @@ __all__ = [
     "fit_sun_abraham",
     "summarize_first_stage",
 ]
-__version__ = "0.12.1"
+__version__ = "0.13.0"

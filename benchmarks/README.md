@@ -9,4 +9,5 @@ coefficients and covariance matrices match. Compare those conventions separately
 hiding them behind a loose tolerance.
 
 `iv_fixture.csv` similarly verifies the second-stage 2SLS coefficients and homoskedastic
-standard errors produced by Python `linearmodels` and R `fixest`.
+standard errors produced by Python `linearmodels` and R `fixest`. The same fixture verifies the
+conditional instrument-relevance F test and partial R-squared against nested base-R `lm` fits.

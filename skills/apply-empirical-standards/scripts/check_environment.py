@@ -19,6 +19,7 @@ REQUIRED_APIS = (
     "fit_panel_iv_2sls",
     "anderson_rubin_test",
     "anderson_rubin_confidence_set",
+    "diagnose_iv_relevance",
 )
 
 
