@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "empirical-standards"
-version = "0.4.0"
+version = "0.5.0"
 description = "Transparent, reproducible building blocks for empirical research in Python."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -25,6 +25,7 @@ dependencies = [
   "linearmodels>=7.0",
   "numpy>=1.26",
   "pandas>=2.1",
+  "scipy>=1.12",
   "statsmodels>=0.14.2",
 ]
 
@@ -35,6 +36,7 @@ dev = [
   "pandas-stubs>=2.1",
   "pytest>=8.2",
   "ruff>=0.6",
+  "scipy-stubs>=1.12",
 ]
 
 [tool.hatch.build.targets.wheel]

@@ -17,4 +17,4 @@ __all__ = [
     "fit_ols",
     "fit_staggered_did",
 ]
-__version__ = "0.4.0"
+__version__ = "0.5.0"

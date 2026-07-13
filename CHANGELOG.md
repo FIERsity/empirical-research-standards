@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## 0.5.0 - 2026-07-13
+
+- Add cohort, calendar-time, event-time, and overall staggered-DID aggregation.
+- Add entity-cluster bootstrap inference with reproducible random sampling.
+- Add pointwise confidence intervals and max-studentized simultaneous confidence bands.
+- Report requested and usable bootstrap replications and fail on unstable bootstrap runs.
+
 ## 0.4.0 - 2026-07-13
 
 - Add shared model specification, sample information, and provenance metadata.

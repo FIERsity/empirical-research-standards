@@ -64,7 +64,13 @@ def main() -> None:
         window=(-3, 3),
     )
     staggered = fit_staggered_did(
-        data, "y_adjusted", entity="id", time="time", treatment_time="adoption"
+        data,
+        "y_adjusted",
+        entity="id",
+        time="time",
+        treatment_time="adoption",
+        bootstrap_reps=100,
+        random_state=20260713,
     )
     sensitivity = covariance_sensitivity(data, "y", ["x", "treated_now"], entity="id", time="time")
     print("Two-way FE:\n", fe.tidy().to_string(index=False))
@@ -73,6 +79,7 @@ def main() -> None:
     print(f"\nPre-trend joint-test p-value: {event.pretrend_p_value:.3f}")
     print("\nStaggered event-time ATT:\n", staggered.event_time_effects.to_string(index=False))
     print(f"\nStaggered overall ATT: {staggered.overall_att:.3f}")
+    print(f"Staggered bootstrap SE: {staggered.overall_std_error:.3f}")
     print("\nCovariance sensitivity:\n", sensitivity.to_string(index=False))
 
 

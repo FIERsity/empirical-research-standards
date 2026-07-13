@@ -91,6 +91,61 @@ def test_staggered_group_time_att() -> None:
     result = fit_staggered_did(data, "y", entity="id", time="time", treatment_time="adoption")
     assert result.overall_att == pytest.approx(1.75, abs=0.08)
     assert not result.group_time_effects.empty
+    assert set(result.cohort_effects["cohort"]) == {3.0, 5.0}
+    assert not result.calendar_time_effects.empty
+
+
+def test_staggered_cluster_bootstrap_inference() -> None:
+    rng = np.random.default_rng(18)
+    ids, periods = 60, 6
+    entity = np.repeat(np.arange(ids), periods)
+    time = np.tile(np.arange(periods), ids)
+    adoption_by_id = np.r_[np.repeat(2.0, 20), np.repeat(4.0, 20), np.repeat(np.nan, 20)]
+    adoption = adoption_by_id[entity]
+    treated = np.isfinite(adoption) & (time >= adoption)
+    y = (
+        rng.normal(size=ids)[entity]
+        + 0.1 * time
+        + 1.25 * treated
+        + rng.normal(scale=0.2, size=len(entity))
+    )
+    data = pd.DataFrame({"id": entity, "time": time, "adoption": adoption, "y": y})
+    result = fit_staggered_did(
+        data,
+        "y",
+        entity="id",
+        time="time",
+        treatment_time="adoption",
+        bootstrap_reps=60,
+        random_state=42,
+    )
+    assert result.bootstrap_successful >= 48
+    assert result.overall_std_error > 0
+    assert result.overall_conf_low < result.overall_att < result.overall_conf_high
+    for table in [
+        result.group_time_effects,
+        result.event_time_effects,
+        result.cohort_effects,
+        result.calendar_time_effects,
+    ]:
+        assert table["std_error"].gt(0).all()
+        assert table["simultaneous_conf_low"].le(table["conf_low"]).all()
+        assert table["simultaneous_conf_high"].ge(table["conf_high"]).all()
+
+
+def test_staggered_bootstrap_validation() -> None:
+    data = pd.DataFrame(
+        {
+            "id": [1, 1, 2, 2],
+            "time": [0, 1, 0, 1],
+            "adoption": [1.0, 1.0, np.nan, np.nan],
+            "y": [0.0, 1.0, 0.0, 0.0],
+        }
+    )
+    with pytest.raises(ValueError, match="at least 50"):
+        fit_staggered_did(
+            data, "y", entity="id", time="time", treatment_time="adoption", bootstrap_reps=20
+        )
 
 
 def test_diagnostics(panel: pd.DataFrame) -> None:

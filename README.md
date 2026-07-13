@@ -6,7 +6,7 @@ model choices are made instead of hiding consequential decisions behind a large 
 
 ## Status
 
-The project is at version 0.4.0. It implements validated data merges and panel diagnostics,
+The project is at version 0.5.0. It implements validated data merges and panel diagnostics,
 validated OLS, panel fixed effects, classic
 DID, dynamic event studies, and a transparent first cohort-time ATT estimator for staggered
 adoption. This remains a working foundation, not a complete econometrics library.

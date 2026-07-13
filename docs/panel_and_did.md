@@ -32,10 +32,17 @@ them as descriptive diagnostics in that setting, not as a substitute for cohort-
 
 `fit_staggered_did` compares each treated cohort's outcome change from its last untreated
 period with the same change among eligible controls. `not_yet_treated` is the default;
-`never_treated` is available when a stable never-treated group exists. The first version
-requires a balanced panel and reports point estimates only. It does not yet provide influence
-function or bootstrap standard errors, covariate adjustment, or simultaneous confidence
-bands, so confirmatory inference should wait for those additions.
+`never_treated` is available when a stable never-treated group exists. The estimator reports
+group-time, event-time, cohort, calendar-time, and overall ATT. Setting `bootstrap_reps` to at
+least 50 enables entity-cluster bootstrap standard errors, pointwise confidence intervals,
+and max-studentized simultaneous confidence bands. Use substantially more replications
+(normally 999 or more) for final analysis and set `random_state` for reproducibility.
+
+The bootstrap resamples whole entities, assigns synthetic identifiers when an entity is
+drawn repeatedly, and records requested and usable replication counts. A run fails rather
+than silently reporting unstable inference if fewer than 30 or 80 percent of draws are
+usable. The current implementation requires a balanced panel and does not yet provide
+influence-function or doubly robust covariate-adjusted inference.
 
 Because this cohort-time estimator is currently unconditional, time-varying confounders
 must not simply be ignored. Either justify unconditional parallel trends, use a pre-specified
