@@ -1,26 +1,41 @@
 # Python Empirical Standards
 
-`python-empirical-standards` is a small, transparent, and testable foundation for
-empirical research and econometric analysis in Python. It documents how data and
-model choices are made instead of hiding consequential decisions behind a large framework.
+English documentation comes first. A concise, detail-equivalent Chinese version follows.
+
+`python-empirical-standards` is a small, transparent, and testable foundation for empirical
+research and econometric analysis in Python. It makes consequential data, model, sample, and
+inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-The project is at version 0.9.0. It implements validated data merges and panel diagnostics,
-validated OLS, panel fixed effects, classic
-DID, dynamic event studies, and a transparent first cohort-time ATT estimator for staggered
-adoption. This remains a working foundation, not a complete econometrics library.
+Version 0.9.0 currently provides:
+
+- cardinality-checked data merges and panel-structure diagnostics;
+- validated OLS with classical, HC1, and one-way clustered covariance;
+- one-way and two-way fixed effects with robust and one-/two-way clustered covariance;
+- classic DID, TWFE event studies, cohort-time staggered DID, and Sun-Abraham event studies;
+- entity-cluster bootstrap inference and simultaneous bands for staggered DID;
+- formal categorical heterogeneity tests, placebo timing, covariance sensitivity,
+  leave-one-cluster-out diagnostics, permutation inference, and wild cluster bootstrap;
+- explicit IV/2SLS with first-stage, Wu-Hausman, Sargan, and robust Wooldridge score tests;
+- Bonferroni, Holm, and Benjamini-Hochberg multiple-testing adjustments;
+- standardized model tables, plotting data, CSV/Excel/LaTeX exports, and reproducibility
+  metadata;
+- deterministic Python-R numerical benchmarks for fixed effects and 2SLS.
+
+This is a working methodological foundation, not a complete econometrics library.
 
 ## Principles
 
-- Correctness and explicit model specifications before convenience.
+- Correctness and explicit specifications before convenience.
 - Reproducible environments, deterministic examples, and tested outputs.
 - Independent modules that can be adopted and verified separately.
 - Small additions driven by concrete research workflows.
-- Results that can be cross-checked against Stata, R, or direct `statsmodels` calls.
+- Results that can be cross-checked against Stata, R, or direct library calls.
+- No causal or substantive interpretation without defensible research assumptions.
 
-This project does not interpret substantive research questions, choose a causal design for
-the researcher, or replace careful inspection of assumptions and source data.
+The project does not choose a causal design for the researcher or replace inspection of source
+data, assignment mechanisms, identification assumptions, and software-specific conventions.
 
 ## Install and verify
 
@@ -35,6 +50,8 @@ uv build
 ```
 
 ## Quick start
+
+### OLS
 
 ```python
 import pandas as pd
@@ -56,24 +73,29 @@ result = fit_ols(
 print(result.tidy())
 ```
 
-Missing values cause an error by default. Pass `drop_missing=True` to explicitly request
-complete-case estimation. See [the OLS specification](docs/ols.md) for all conventions.
+Missing values raise an error by default. Set `drop_missing=True` to explicitly request
+complete-case estimation. See [the OLS specification](docs/ols.md).
 
-Panel and causal estimators are similarly explicit:
+### Panel fixed effects and DID
 
 ```python
-from empirical_standards import fit_fixed_effects, fit_did
+from empirical_standards import fit_did, fit_fixed_effects
 
-fe = fit_fixed_effects(data, "y", ["x"], entity="city", time="year",
-                       time_effects=True, covariance="cluster_two_way")
-did = fit_did(data, "y", "treated", "post", entity="city", time="year",
-              controls=["x"], covariance="cluster_entity")
+fe = fit_fixed_effects(
+    data, "y", ["x"], entity="city", time="year",
+    time_effects=True, covariance="cluster_two_way",
+)
+did = fit_did(
+    data, "y", "treated", "post", entity="city", time="year",
+    controls=["x"], covariance="cluster_entity",
+)
 ```
 
-See [panel and DID conventions](docs/panel_and_did.md), including current limitations of
-staggered-DID inference.
+The causal module also includes dynamic TWFE, cohort-time ATT with optional entity-cluster
+bootstrap inference, and Sun-Abraham cohort-interacted event studies. See
+[panel and DID conventions](docs/panel_and_did.md) for identification and inference limits.
 
-Validate data structure before estimation:
+### Data validation
 
 ```python
 from empirical_standards.data import diagnose_panel, merge_validated
@@ -87,21 +109,7 @@ print(diagnostics.summary())
 
 See [data-validation conventions](docs/data_validation.md).
 
-Every model result provides `tidy()`, `glance()`, `model_spec()`, `sample_info()`, and
-`provenance()`. See the [result metadata contract](docs/results.md).
-
-Collect and export model results without inspecting estimator internals:
-
-```python
-from empirical_standards.reporting import collect_models, export_model_collection
-
-collection = collect_models({"baseline": baseline, "twfe": twfe, "did": did})
-export_model_collection(collection, "outputs", prefix="main_results")
-```
-
-See [standardized reporting](docs/reporting.md) and the executable [cross-software benchmark](benchmarks/README.md).
-
-Two-stage least squares is explicit about variable roles:
+### IV/2SLS
 
 ```python
 from empirical_standards import fit_iv_2sls
@@ -118,9 +126,28 @@ iv = fit_iv_2sls(
 print(iv.first_stage)
 ```
 
-See the [IV/2SLS specification](docs/iv.md).
+First-stage statistics retain their actual reference distribution; robust Wald statistics are
+not mislabeled as conventional F statistics. See [the IV/2SLS specification](docs/iv.md).
 
-Run the complete example with:
+### Results and exports
+
+Every model result provides `tidy()`, `glance()`, `model_spec()`, `sample_info()`, and
+`provenance()`. The sample metadata includes a deterministic fingerprint of the exact
+estimation data.
+
+```python
+from empirical_standards.reporting import collect_models, export_model_collection
+
+collection = collect_models({"baseline": baseline, "twfe": twfe, "did": did})
+export_model_collection(collection, "outputs", prefix="main_results")
+```
+
+See the [result contract](docs/results.md), [reporting specification](docs/reporting.md), and
+[cross-software benchmarks](benchmarks/README.md). Stata remains explicitly pending because
+it is unavailable in the current verification environment; Python-R fixed-effects and 2SLS
+benchmarks are executed and tested.
+
+## Runnable examples
 
 ```bash
 uv run python examples/ols_example.py
@@ -128,30 +155,114 @@ uv run python examples/panel_did_example.py
 uv run python examples/data_validation_example.py
 ```
 
-It writes a tidy CSV to `outputs/ols_clustered.csv`.
+The OLS example writes `outputs/ols_clustered.csv`. Other examples print deterministic model
+and diagnostic results.
 
 ## Repository layout
 
 ```text
-src/empirical_standards/  Installable source package
-  models/                 Econometric estimators
-tests/                    Numerical and validation tests
-examples/                 Deterministic, runnable workflows
-docs/                     Method specifications and conventions
+src/empirical_standards/  Installable package
+  data/                   Merge validation and panel diagnostics
+  models/                 OLS and IV/2SLS
+  panel/                  Fixed-effects estimation
+  causal/                 DID and event-study estimators
+  diagnostics/            Heterogeneity, robustness, and resampling inference
+  results/                Shared metadata contract
+  reporting/              Tables, plotting data, and exports
+tests/                    Numerical, validation, and cross-software tests
+benchmarks/               Deterministic Python/R/Stata benchmark assets
+examples/                 Runnable deterministic workflows
+docs/                     Method specifications and limitations
 .github/workflows/        Continuous integration
 ```
 
 ## Roadmap
 
-The next priority is inference for cohort-time ATT (cluster bootstrap or influence-function
-standard errors and simultaneous bands), formal subgroup interaction tests, and frozen
-Stata/R comparison fixtures. Later modules may cover IV, spatial models, data lineage,
-machine-learning evaluation, and standardized tables and figures.
+The next methodological priorities are panel IV with absorbed fixed effects, weak-identification
+robust inference such as Anderson-Rubin procedures, richer multi-endogenous-variable
+diagnostics, and IV-specific sensitivity and heterogeneity tools. Spatial econometrics,
+machine-learning validation, and additional reporting formats should follow only after those
+core inference paths and external benchmarks are stable.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a new estimator. Each method should
-arrive with assumptions, a runnable example, validation failures, numerical tests, and a
-documented external comparison strategy.
+See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a method. Every estimator must document
+its estimand, assumptions, sample rules, defaults, covariance convention, failure modes,
+runnable example, numerical tests, and external-comparison strategy.
 
 ## License
+
+MIT
+
+---
+
+# 中文说明
+
+`python-empirical-standards` 是一套小型、透明、可测试的 Python 实证研究与计量分析基础规范。项目显式记录数据、样本、模型和推断选择，避免由大型框架隐藏关键设定。
+
+## 当前状态
+
+当前版本为 0.9.0，已实现：
+
+- 带基数关系约束的数据合并与面板结构诊断；
+- OLS，以及经典、HC1、单向聚类协方差；
+- 单向/双向固定效应，以及稳健、单向/双向聚类协方差；
+- 经典 DID、TWFE 事件研究、cohort-time 交错 DID、Sun-Abraham 事件研究；
+- 交错 DID 的实体聚类 bootstrap 与同时置信带；
+- 分类异质性正式检验、安慰剂时点、协方差敏感性、LOCO、置换推断、wild cluster bootstrap；
+- 显式 IV/2SLS，以及第一阶段、Wu-Hausman、Sargan、稳健 Wooldridge score 检验；
+- Bonferroni、Holm、Benjamini-Hochberg 多重检验校正；
+- 标准模型表、绘图数据、CSV/Excel/LaTeX 导出与可复现元数据；
+- 固定效应和 2SLS 的确定性 Python-R 数值基准。
+
+这仍是方法基础，不是完整计量经济学库。
+
+## 原则与边界
+
+- 正确性和显式设定优先；环境、示例和输出可复现并经过测试。
+- 模块保持独立，按真实研究需求小步扩展，并支持与 Stata、R 或底层库交叉验证。
+- 项目不替研究者选择因果设计，也不替代对源数据、处理分配机制、识别假设和软件约定的审查，不自动解释实质性或因果含义。
+
+## 安装与验证
+
+安装 [uv](https://docs.astral.sh/uv/) 后运行：
+
+```bash
+uv sync
+uv run pytest
+uv run ruff check .
+uv run mypy
+uv build
+```
+
+## 使用方式
+
+上方英文部分给出了完整可运行代码。核心入口如下：
+
+- `fit_ols`：OLS；默认拒绝缺失值，仅在 `drop_missing=True` 时进行完整案例估计，详见 [OLS 规范](docs/ols.md)。
+- `fit_fixed_effects`、`fit_did`：固定效应和经典 DID；因果模块还包括 TWFE 动态效应、带实体聚类 bootstrap 的 cohort-time ATT、Sun-Abraham，识别与推断限制见 [面板与 DID 规范](docs/panel_and_did.md)。
+- `merge_validated`、`diagnose_panel`：约束合并关系并检查面板覆盖、重复键、singleton 和 within/between 变异，详见 [数据规范](docs/data_validation.md)。
+- `fit_iv_2sls`：显式区分外生变量、内生变量和排除工具；第一阶段保留真实参考分布，不把稳健 Wald 统计量误称为传统 F，详见 [IV/2SLS 规范](docs/iv.md)。
+- `collect_models`、`export_model_collection`：统一收集并导出模型结果。
+
+所有模型结果都提供 `tidy()`、`glance()`、`model_spec()`、`sample_info()`、`provenance()`；样本元数据包含实际估计数据的确定性指纹。详见 [结果协议](docs/results.md)和[输出规范](docs/reporting.md)。
+
+跨软件基准见 [benchmarks](benchmarks/README.md)：Python-R 固定效应与 2SLS 已实际运行并纳入测试；当前环境没有 Stata，因此 Stata 状态明确为 pending。
+
+## 示例与结构
+
+```bash
+uv run python examples/ols_example.py
+uv run python examples/panel_did_example.py
+uv run python examples/data_validation_example.py
+```
+
+OLS 示例写入 `outputs/ols_clustered.csv`，其余示例输出确定性模型和诊断结果。仓库按 `data`、`models`、`panel`、`causal`、`diagnostics`、`results`、`reporting` 分组；测试、跨软件基准、示例、方法文档和 CI 分别位于 `tests`、`benchmarks`、`examples`、`docs`、`.github/workflows`。
+
+## 后续方向
+
+优先补充吸收固定效应的面板 IV、Anderson-Rubin 等弱识别稳健推断、多内生变量诊断，以及 IV 专用异质性和敏感性工具。空间计量、机器学习验证和更多输出格式应在核心推断和外部基准稳定后扩展。
+
+贡献新方法前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。每个估计器必须说明估计目标、假设、样本规则、默认值、协方差约定、失败条件、可运行示例、数值测试和外部比较策略。
+
+## 许可证
 
 MIT
