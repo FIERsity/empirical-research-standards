@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "empirical-standards"
+version = "0.1.0"
+description = "Transparent, reproducible building blocks for empirical research in Python."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "FIERsity" }]
+keywords = ["econometrics", "empirical-research", "reproducibility"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "statsmodels>=0.14.2",
+]
+
+[dependency-groups]
+dev = [
+  "build>=1.2",
+  "mypy>=1.11",
+  "pandas-stubs>=2.1",
+  "pytest>=8.2",
+  "ruff>=0.6",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/empirical_standards"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/examples",
+  "/docs",
+  "/README.md",
+  "/CONTRIBUTING.md",
+  "/CHANGELOG.md",
+  "/LICENSE",
+  "/pyproject.toml",
+  "/uv.lock",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["empirical_standards"]
+
+[[tool.mypy.overrides]]
+module = ["statsmodels.*"]
+ignore_missing_imports = true
