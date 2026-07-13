@@ -21,6 +21,8 @@ valid.
 5. Read [references/method-selection.md](references/method-selection.md) before choosing an
    estimator. If the user's design is ambiguous, report the ambiguity instead of silently
    selecting a causal estimator.
+6. For a new panel project, use `examples/research_workflow.py` and
+   `docs/research_workflow.md` as the default auditable structure before adding advanced methods.
 
 ## Execute the workflow
 

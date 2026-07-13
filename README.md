@@ -8,7 +8,7 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.15.1 provides an installable Python package and a repository-distributed Agent Skill.
+Version 0.16.0 provides an installable Python package and a repository-distributed Agent Skill.
 Capabilities are grouped by maturity rather than presented as equally complete.
 
 Core building blocks:
@@ -182,10 +182,13 @@ are executed and tested.
 uv run python examples/ols_example.py
 uv run python examples/panel_did_example.py
 uv run python examples/data_validation_example.py
+uv run python examples/research_workflow.py
 ```
 
 The OLS example writes `outputs/ols_clustered.csv`. Other examples print deterministic model
-and diagnostic results.
+and diagnostic results. The recommended end-to-end workflow writes a design manifest, panel
+audit, primary models, robustness diagnostics, and standardized result metadata to
+`outputs/research_workflow`. See the [bilingual workflow guide](docs/research_workflow.md).
 
 ## Agent Skill
 
@@ -228,11 +231,10 @@ skills/                   Agent workflows and progressive references
 
 ## Roadmap
 
-The next methodological priorities are robust and clustered finite-sample covariance for
-absorbed panel IV, Kleibergen-Paap diagnostics, and IV-specific sensitivity and heterogeneity
-tools. Spatial econometrics,
-machine-learning validation, and additional reporting formats should follow only after those
-core inference paths and external benchmarks are stable.
+The next priorities are data schemas and validation reports, a clearer model-selection guide,
+complete foundational examples for OLS/FE/DID, and a stricter audit of the limited staggered-DID
+and cohort-interacted event-study implementations. Additional advanced IV, spatial, and
+machine-learning methods should wait until these foundational workflows are stable.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a method. Every estimator must document
 its estimand, assumptions, sample rules, defaults, covariance convention, failure modes,
@@ -250,7 +252,7 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.15.1，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+当前版本为 0.16.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
 
 核心功能：
 
@@ -305,7 +307,7 @@ uv build
 - `merge_validated`、`diagnose_panel`：约束合并关系并检查面板覆盖、重复键、singleton 和 within/between 变异，详见 [数据规范](docs/data_validation.md)。
 - `fit_iv_2sls`：显式区分外生变量、内生变量和排除工具；第一阶段保留真实参考分布，不把稳健 Wald 统计量误称为传统 F，详见 [IV/2SLS 规范](docs/iv.md)。
 - `fit_panel_iv_2sls`、`anderson_rubin_test`：面板 IV 加入个体/时间固定效应；AR 支持控制变量、固定效应、稳健/聚类协方差，网格反演保留全部接受值，不假设置信集合连续，详见 [面板 IV 与 AR 规范](docs/panel_iv_and_ar.md)。
-- 面板 IV 设置 `absorption="within"` 可扩展到高维固定效应；结构系数与指示变量后端交叉检查，但当前只提供渐近协方差，不宣称已完成吸收自由度的有限样本修正。`summarize_first_stage` 区分传统 F 与稳健 Wald，并明确不把 Wald/q 称为 KP。
+- 面板 IV 设置 `absorption="within"` 可扩展到高维固定效应；默认使用渐近协方差，同方差模型可显式启用已核验的吸收自由度修正，稳健/聚类修正尚未实现。条件相关性 Wald 只是辅助诊断，不是 KP。
 - `collect_models`、`export_model_collection`：统一收集并导出模型结果。
 
 所有模型结果都提供 `tidy()`、`glance()`、`model_spec()`、`sample_info()`、`provenance()`；样本元数据包含实际估计数据的确定性指纹。详见 [结果协议](docs/results.md)和[输出规范](docs/reporting.md)。
@@ -318,9 +320,10 @@ uv build
 uv run python examples/ols_example.py
 uv run python examples/panel_did_example.py
 uv run python examples/data_validation_example.py
+uv run python examples/research_workflow.py
 ```
 
-OLS 示例写入 `outputs/ols_clustered.csv`，其余示例输出确定性模型和诊断结果。仓库按 `data`、`models`、`panel`、`causal`、`diagnostics`、`results`、`reporting` 分组；测试、跨软件基准、示例、方法文档和 CI 分别位于 `tests`、`benchmarks`、`examples`、`docs`、`.github/workflows`。
+OLS 示例写入 `outputs/ols_clustered.csv`。推荐的端到端示例会在 `outputs/research_workflow` 生成设计说明、面板审计、主模型、稳健性诊断及标准元数据，详见[中英文工作流指南](docs/research_workflow.md)。仓库按 `data`、`models`、`panel`、`causal`、`diagnostics`、`results`、`reporting` 分组。
 
 ## Agent Skill
 
@@ -336,7 +339,7 @@ Skill 与 Python 包同步版本管理；其中详细方法链接相对于本仓
 
 ## 后续方向
 
-优先补充吸收式面板 IV 的稳健/聚类有限样本协方差、Kleibergen-Paap 诊断，以及 IV 专用异质性和敏感性工具。空间计量、机器学习验证和更多输出格式应在核心推断和外部基准稳定后扩展。
+下一步优先补数据 schema 与验证报告、清晰的模型选择指南、完整 OLS/FE/DID 基础示例，并严格复核受限的交错 DID 和 cohort-interacted event study。高级 IV、空间计量和机器学习方法暂缓。
 
 贡献新方法前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。每个估计器必须说明估计目标、假设、样本规则、默认值、协方差约定、失败条件、可运行示例、数值测试和外部比较策略。
 

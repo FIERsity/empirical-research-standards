@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## 0.16.0 - 2026-07-13
+
+- Add a deterministic end-to-end panel research workflow from merge audit through exports.
+- Export a human-readable design manifest alongside model, sample, provenance, diagnostic,
+  placebo, covariance-sensitivity, and heterogeneity results.
+- Add a bilingual workflow guide and make foundational workflow completeness the roadmap focus.
+
 ## 0.15.1 - 2026-07-13
 
 - Reclassify capabilities as core, advanced with limits, supporting diagnostics, or absent.
