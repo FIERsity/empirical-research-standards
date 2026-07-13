@@ -174,6 +174,7 @@ def fit_sun_abraham(
         outcome=outcome,
         predictors=tuple([*terms, *controls]),
         settings={
+            "implementation_status": "educational_reference",
             "treatment_time": treatment_time,
             "entity": entity,
             "time": time,

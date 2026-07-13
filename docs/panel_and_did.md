@@ -6,6 +6,8 @@
 - `causal.fit_did`: treated-by-post TWFE DID with optional declared controls.
 - `causal.fit_event_study`: dynamic TWFE event-time coefficients and a joint pre-trend Wald test.
 - `causal.fit_staggered_did`: cohort-time ATT using never-treated or not-yet-treated controls.
+- `causal.fit_staggered_did_r`: research-grade `did::att_gt` group-time ATT.
+- `causal.fit_sun_abraham_r`: research-grade `fixest::sunab` event study.
 - `diagnostics`: pre-specified subgroup estimation, covariance sensitivity, and placebo timing.
 
 ## Fixed effects and inference
@@ -35,6 +37,11 @@ never-treated comparison group; it does not silently substitute already-treated 
 
 ## Staggered adoption
 
+For consequential heterogeneous staggered-adoption research, prefer the explicit R APIs above.
+They provide the mature package implementations and never silently fall back. See the
+[strict implementation audit](staggered_did_audit.md). The Python functions described below are
+retained as transparent educational references, not full named-method reproductions.
+
 `fit_staggered_did` compares each treated cohort's outcome change from its last untreated
 period with the same change among eligible controls. `not_yet_treated` is the default;
 `never_treated` is available when a stable never-treated group exists. The estimator reports
@@ -49,7 +56,7 @@ than silently reporting unstable inference if fewer than 30 or 80 percent of dra
 usable. The current implementation requires a balanced panel and does not yet provide
 influence-function or doubly robust covariate-adjusted inference.
 
-Because this cohort-time estimator is currently unconditional, time-varying confounders
+Because the Python reference estimator is unconditional, time-varying confounders
 must not simply be ignored. Either justify unconditional parallel trends, use a pre-specified
 valid adjustment before estimation, or wait for the planned doubly robust covariate-adjusted
 estimator.

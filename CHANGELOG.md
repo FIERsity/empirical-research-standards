@@ -2,6 +2,14 @@
 
 All notable changes are documented here.
 
+## 0.21.0 - 2026-07-13
+
+- Add explicit research-grade R backends for `did::att_gt`/`aggte` and `fixest::sunab`.
+- Preserve the native Python staggered-treatment estimators as clearly labeled educational
+  reference implementations after a strict estimand, weighting, and inference audit.
+- Add versioned R scripts, an `renv` lockfile, structured cross-language provenance, optional
+  end-to-end R tests, and backend-aware Agent Skill guidance.
+
 ## 0.20.0 - 2026-07-13
 
 - Rename the project to Empirical Research Standards and remove repository-level language lock-in.

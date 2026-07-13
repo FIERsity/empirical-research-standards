@@ -15,6 +15,8 @@ REQUIRED_APIS = (
     "fit_event_study",
     "fit_staggered_did",
     "fit_sun_abraham",
+    "fit_staggered_did_r",
+    "fit_sun_abraham_r",
     "fit_iv_2sls",
     "fit_panel_iv_2sls",
     "anderson_rubin_test",
@@ -56,6 +58,22 @@ def main() -> int:
         print(f"ERROR: missing required APIs: {', '.join(missing)}", file=sys.stderr)
         return 1
     print(f"required APIs: OK ({len(REQUIRED_APIS)})")
+    from empirical_standards.backends import check_r_environment
+
+    r_environment = check_r_environment(("did", "fixest", "jsonlite"))
+    if r_environment.available:
+        versions = ", ".join(
+            f"{name}={package_version}"
+            for name, package_version in r_environment.packages.items()
+        )
+        print(f"optional R causal backends: OK ({versions})")
+    else:
+        missing_r = [
+            name
+            for name, package_version in r_environment.packages.items()
+            if package_version is None
+        ]
+        print(f"optional R causal backends: unavailable (missing: {', '.join(missing_r)})")
     return 0
 
 

@@ -1,6 +1,12 @@
 """Transparent building blocks for empirical research."""
 
 from empirical_standards.causal.did import DIDResult, EventStudyResult, fit_did, fit_event_study
+from empirical_standards.causal.r_backends import (
+    RStaggeredDIDResult,
+    RSunAbrahamResult,
+    fit_staggered_did_r,
+    fit_sun_abraham_r,
+)
 from empirical_standards.causal.staggered import StaggeredDIDResult, fit_staggered_did
 from empirical_standards.causal.sun_abraham import SunAbrahamResult, fit_sun_abraham
 from empirical_standards.models.iv import IV2SLSResult, fit_iv_2sls
@@ -26,6 +32,8 @@ __all__ = [
     "IVRelevanceDiagnostics",
     "OLSResult",
     "PanelIV2SLSResult",
+    "RStaggeredDIDResult",
+    "RSunAbrahamResult",
     "StaggeredDIDResult",
     "SunAbrahamResult",
     "anderson_rubin_confidence_set",
@@ -38,7 +46,9 @@ __all__ = [
     "fit_ols",
     "fit_panel_iv_2sls",
     "fit_staggered_did",
+    "fit_staggered_did_r",
     "fit_sun_abraham",
+    "fit_sun_abraham_r",
     "summarize_first_stage",
 ]
-__version__ = "0.20.0"
+__version__ = "0.21.0"

@@ -52,7 +52,7 @@ fe = fit_fixed_effects(
 ## DID families
 
 ```python
-from empirical_standards import fit_did, fit_event_study, fit_staggered_did, fit_sun_abraham
+from empirical_standards import fit_did, fit_event_study, fit_staggered_did_r, fit_sun_abraham_r
 
 did = fit_did(
     data, "y", "treated", "post",
@@ -63,13 +63,13 @@ event = fit_event_study(
     data, "y", "treatment_year",
     entity="city", time="year", reference=-1,
 )
-staggered = fit_staggered_did(
-    data, "y", "treatment_year",
-    entity="city", time="year",
+staggered = fit_staggered_did_r(
+    data, "y", treatment_time="treatment_year",
+    entity="city", time="year", controls=["control"], method="dr",
 )
-sun_abraham = fit_sun_abraham(
+sun_abraham = fit_sun_abraham_r(
     data, "y", "treatment_year",
-    entity="city", time="year", reference=-1,
+    entity="city", time="year", reference_period=-1,
 )
 ```
 

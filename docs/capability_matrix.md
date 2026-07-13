@@ -12,6 +12,8 @@ design or make a limited estimator equivalent to a full reference implementation
 | OLS | Classical, HC1, one-way cluster covariance | No formula interface or multi-way clustering |
 | Panel FE | Entity, time, and two-way FE; robust and one-/two-way clustering | No general multi-way HDFE estimator |
 | Classic DID | Treated-by-post TWFE with controls | Researcher must justify parallel trends and timing |
+| R staggered DID | `did::att_gt` DR/IPW/regression group-time effects and aggregation | Requires explicit R environment; identification remains design-specific |
+| R Sun--Abraham | `fixest::sunab` cohort interactions and event-time aggregation | Requires explicit R environment and declared clustering |
 | Results | Tidy, glance, specification, sample, provenance, CSV/Excel/LaTeX export | Not a publication-table system |
 
 ## Advanced, with explicit limits
@@ -19,8 +21,8 @@ design or make a limited estimator equivalent to a full reference implementation
 | Area | Implemented | Main boundary |
 |---|---|---|
 | TWFE event study | Dynamic coefficients and joint pre-period test | Can be contaminated under heterogeneous staggered effects |
-| Cohort-time staggered DID | Unconditional two-period changes using never/not-yet-treated controls | Balanced panel; no covariate-adjusted or doubly robust estimator |
-| Cohort-interacted event study | Never-treated comparison, cohort interactions, weighted aggregation | Limited Sun-Abraham-style implementation, not a full replacement for established R packages |
+| Python cohort-time reference | Unconditional two-period changes using never/not-yet-treated controls | Educational only: balanced panel; no covariate-adjusted or doubly robust score |
+| Python cohort-interaction reference | Never-treated comparison, cohort interactions, weighted aggregation | Educational only; not equivalent to `fixest::sunab` |
 | IV/2SLS | Explicit roles, common covariance options, first-stage and specification diagnostics | Identification remains substantive; no LIML or Fuller estimator |
 | Panel IV | Indicator or within absorption; homoskedastic absorbed-DF option | Robust/cluster absorbed-DF correction is not implemented |
 | Anderson-Rubin | One endogenous coefficient, robust/cluster options, grid inversion | No multi-endogenous AR confidence region |
@@ -38,7 +40,7 @@ design or make a limited estimator equivalent to a full reference implementation
 ## Not implemented
 
 - Kleibergen-Paap rank and weak-identification statistics or critical values.
-- Doubly robust or covariate-adjusted staggered DID.
+- Native-Python doubly robust or covariate-adjusted staggered DID (available through R `did`).
 - General multi-way high-dimensional fixed effects outside the panel-IV path.
 - LIML, Fuller, JIVE, or weak-identification-robust multi-parameter IV regions.
 - Spatial econometrics, machine-learning validation workflows, data versioning, and a complete

@@ -258,6 +258,7 @@ def fit_staggered_did(
         outcome=outcome,
         predictors=(),
         settings={
+            "implementation_status": "educational_reference",
             "entity": entity,
             "time": time,
             "treatment_time": treatment_time,

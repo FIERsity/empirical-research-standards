@@ -23,7 +23,7 @@ If the variation source cannot be stated, stop at descriptive analysis.
 | Repeated entities; concern about stable entity differences | `fit_fixed_effects` | Within-entity variation and unique entity-time keys | Time-varying confounding or reverse causality |
 | One treated group and one common post period | `fit_did` | Defensible comparison group, no anticipation, parallel trends, stable composition | Heterogeneous staggered timing or treatment endogeneity |
 | Dynamic effects around a common treatment date | `fit_event_study` | DID conditions plus pre/post support and a declared reference period | Proof of parallel trends; staggered-effect contamination |
-| Several adoption cohorts | `fit_staggered_did` or `fit_sun_abraham` only after reading limits | Cohort timing, eligible controls, support, no anticipation, design-specific parallel trends | Current implementations are not full replacements for established R packages |
+| Several adoption cohorts | `fit_staggered_did_r` (`did`) or `fit_sun_abraham_r` (`fixest`) | Cohort timing, eligible controls, support, anticipation, design-specific parallel trends | Backend maturity does not establish identification; Python reference variants are educational |
 | Endogenous exposure with excluded instruments | `fit_iv_2sls` | Relevance, exclusion, independence, monotonicity when interpreting LATE | Instrument validity; weak-instrument problems |
 | Instrumented exposure with panel fixed effects | `fit_panel_iv_2sls` | All IV conditions plus within variation and justified fixed effects | General high-dimensional IV inference |
 

@@ -10,7 +10,8 @@ fragile or reduced Python reimplementations.
 
 ## Status
 
-Version 0.20.0 provides an installable Python package and a repository-distributed Agent Skill.
+Version 0.21.0 provides an installable Python package, explicit R causal backends, and a
+repository-distributed Agent Skill.
 Capabilities are grouped by maturity rather than presented as equally complete.
 
 Core building blocks:
@@ -23,11 +24,13 @@ Core building blocks:
 - standardized model tables, plotting data, CSV/Excel/LaTeX exports, and reproducibility
   metadata;
 - the `apply-empirical-standards` Agent Skill for auditable data-to-result workflows.
+- research-grade Callaway--Sant'Anna group-time DID through `did::att_gt`, and Sun--Abraham
+  event studies through `fixest::sunab`, with Python validation and structured results.
 
 Advanced components with material restrictions:
 
-- TWFE event studies; unconditional balanced-panel cohort-time staggered DID; and a
-  never-treated, cohort-interacted Sun-Abraham-style event study;
+- TWFE event studies plus educational Python reference implementations of unconditional
+  balanced-panel cohort-time DID and a never-treated cohort-interacted event study;
 - entity-cluster bootstrap inference and simultaneous bands for the limited staggered-DID path;
 - categorical FE heterogeneity tests, placebo timing, covariance sensitivity,
   leave-one-cluster-out diagnostics, permutation inference, and restricted wild cluster bootstrap;
@@ -42,7 +45,7 @@ Advanced components with material restrictions:
 - Bonferroni, Holm, and Benjamini-Hochberg multiple-testing adjustments;
 - deterministic Python-R numerical benchmarks for fixed effects and 2SLS.
 
-Not implemented: Kleibergen-Paap diagnostics, doubly robust staggered DID, general multi-way
+Not implemented: Kleibergen-Paap diagnostics, a native-Python doubly robust staggered DID, general multi-way
 HDFE, spatial econometrics, machine-learning validation, and a complete publication-table
 framework. See the [capability matrix](docs/capability_matrix.md) for exact boundaries.
 
@@ -120,6 +123,23 @@ did = fit_did(
 The causal module also includes dynamic TWFE, cohort-time ATT with optional entity-cluster
 bootstrap inference, and Sun-Abraham cohort-interacted event studies. See
 [panel and DID conventions](docs/panel_and_did.md) for identification and inference limits.
+
+For heterogeneous staggered adoption, use the explicit mature backends:
+
+```python
+from empirical_standards import fit_staggered_did_r, fit_sun_abraham_r
+
+group_time = fit_staggered_did_r(
+    data, "y", entity="city", time="year", treatment_time="treatment_year",
+    controls=["x"], method="dr", control_group="not_yet_treated",
+)
+dynamic = fit_sun_abraham_r(
+    data, "y", "treatment_year", entity="city", time="year", controls=["x"],
+)
+```
+
+Install R, then from `r/` run `Rscript -e 'renv::restore()'`. Backend failure is explicit; no
+statistically different Python estimator is substituted. See the [strict audit](docs/staggered_did_audit.md).
 
 ### Data validation
 
@@ -242,10 +262,9 @@ r/                        Optional version-locked advanced statistical backends
 
 ## Roadmap
 
-The next priorities are data schemas and validation reports, a clearer model-selection guide,
-complete foundational examples for OLS/FE/DID, and a stricter audit of the limited staggered-DID
-and cohort-interacted event-study implementations. Additional advanced IV, spatial, and
-machine-learning methods should wait until these foundational workflows are stable.
+The next priorities are a standalone R-backed staggered-DID example, fixed benchmark datasets,
+support/weight diagnostics, and cross-language regression baselines. Spatial and machine-learning
+methods should follow only after these causal workflows are stable.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a method. Every estimator must document
 its estimand, assumptions, sample rules, defaults, covariance convention, failure modes,
@@ -263,7 +282,7 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.20.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+当前版本为 0.21.0，产品包括 Python 包、显式 R 因果后端和 Agent Skill。功能按成熟度区分：
 
 核心功能：
 
@@ -273,10 +292,12 @@ MIT
 - 经典 DID；
 - 标准结果、元数据和 CSV/Excel/LaTeX 导出；
 - `apply-empirical-standards` Agent Skill。
+- 通过 `did::att_gt` 实现成熟的 Callaway--Sant'Anna 交错 DID；通过 `fixest::sunab`
+  实现 Sun--Abraham 事件研究。Python 负责校验、编排和结构化结果。
 
 进阶但受限：
 
-- TWFE 事件研究；要求平衡面板且无协变量调整的 cohort-time DID；要求 never-treated 对照的 Sun-Abraham 风格实现；
+- TWFE 事件研究；另保留平衡面板 cohort-time DID 和 cohort-interacted 事件研究的 Python 教学参考实现；
 - 上述交错 DID 的实体 bootstrap 与同时置信带；
 - FE 分类异质性、安慰剂、协方差敏感性、LOCO、置换和受限 wild cluster bootstrap；
 - 显式 IV/2SLS，以及第一阶段、Wu-Hausman、Sargan、稳健 Wooldridge score 检验；
@@ -286,7 +307,7 @@ MIT
 - 同方差 within 面板 IV 可显式启用吸收自由度有限样本修正，并已与指示变量后端及 R 矩阵公式核验；
 - Bonferroni、Holm、Benjamini-Hochberg 多重检验校正；
 - 固定效应和 2SLS 的确定性 Python-R 数值基准。
-- 尚未实现 KP、双重稳健交错 DID、通用多维 HDFE、空间计量、机器学习验证和完整论文制表。准确边界见[功能矩阵](docs/capability_matrix.md)。
+- 尚未实现 KP、原生 Python 双重稳健交错 DID、通用多维 HDFE、空间计量、机器学习验证和完整论文制表。准确边界见[功能矩阵](docs/capability_matrix.md)。
 - `apply-empirical-standards` Agent Skill：规范数据审计、估计器选择、设计匹配的诊断、标准输出和跨软件核验。
 
 这仍是方法基础，不是完整计量经济学库。
@@ -316,6 +337,7 @@ uv build
 
 - `fit_ols`：OLS；默认拒绝缺失值，仅在 `drop_missing=True` 时进行完整案例估计，详见 [OLS 规范](docs/ols.md)。
 - `fit_fixed_effects`、`fit_did`：固定效应和经典 DID；因果模块还包括 TWFE 动态效应、带实体聚类 bootstrap 的 cohort-time ATT、Sun-Abraham，识别与推断限制见 [面板与 DID 规范](docs/panel_and_did.md)。
+- `fit_staggered_did_r`、`fit_sun_abraham_r`：复杂交错处理的推荐入口，分别对接 R 的 `did` 与 `fixest`。在 `r/` 运行 `Rscript -e 'renv::restore()'` 恢复锁定依赖；后端不可用时会明确失败，不会静默换模型。严格差异见[交错 DID 审计](docs/staggered_did_audit.md)。
 - `merge_validated`、`diagnose_panel`：约束合并关系并检查面板覆盖、重复键、singleton 和 within/between 变异，详见 [数据规范](docs/data_validation.md)。
 - `fit_iv_2sls`：显式区分外生变量、内生变量和排除工具；第一阶段保留真实参考分布，不把稳健 Wald 统计量误称为传统 F，详见 [IV/2SLS 规范](docs/iv.md)。
 - `fit_panel_iv_2sls`、`anderson_rubin_test`：面板 IV 加入个体/时间固定效应；AR 支持控制变量、固定效应、稳健/聚类协方差，网格反演保留全部接受值，不假设置信集合连续，详见 [面板 IV 与 AR 规范](docs/panel_iv_and_ar.md)。

@@ -44,7 +44,7 @@ def test_skill_environment_check_runs() -> None:
         text=True,
     )
 
-    assert "required APIs: OK (11)" in completed.stdout
+    assert "required APIs: OK (13)" in completed.stdout
 
 
 def test_model_selection_guide_covers_design_paths_and_stop_conditions() -> None:
