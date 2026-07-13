@@ -24,6 +24,8 @@ valid.
    selecting a causal estimator.
 6. For a new panel project, use `examples/research_workflow.py` and
    `docs/research_workflow.md` as the default auditable structure before adding advanced methods.
+7. Read `docs/foundational_examples.md` and start from the matching OLS, fixed-effects, or
+   common-adoption DID example rather than adapting an advanced estimator first.
 
 ## Execute the workflow
 

@@ -2,6 +2,12 @@
 
 All notable changes are documented here.
 
+## 0.19.0 - 2026-07-13
+
+- Add separate auditable OLS, fixed-effects, and common-adoption DID examples.
+- Export a design record, standardized results, provenance, and method-specific diagnostics.
+- Add bilingual interpretation guidance and from-scratch execution tests for every example.
+
 ## 0.18.0 - 2026-07-13
 
 - Add a bilingual design-first model-selection guide with explicit stop conditions.

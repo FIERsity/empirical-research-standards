@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "empirical-standards"
-version = "0.18.0"
+version = "0.19.0"
 description = "Transparent, reproducible building blocks for empirical research in Python."
 readme = "README.md"
 requires-python = ">=3.11"

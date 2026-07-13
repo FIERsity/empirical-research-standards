@@ -8,7 +8,7 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.18.0 provides an installable Python package and a repository-distributed Agent Skill.
+Version 0.19.0 provides an installable Python package and a repository-distributed Agent Skill.
 Capabilities are grouped by maturity rather than presented as equally complete.
 
 Core building blocks:
@@ -182,6 +182,8 @@ are executed and tested.
 
 ```bash
 uv run python examples/ols_example.py
+uv run python examples/fixed_effects_example.py
+uv run python examples/did_example.py
 uv run python examples/panel_did_example.py
 uv run python examples/data_validation_example.py
 uv run python examples/research_workflow.py
@@ -191,6 +193,8 @@ The OLS example writes `outputs/ols_clustered.csv`. Other examples print determi
 and diagnostic results. The recommended end-to-end workflow writes a design manifest, panel
 audit, primary models, robustness diagnostics, and standardized result metadata to
 `outputs/research_workflow`. See the [bilingual workflow guide](docs/research_workflow.md).
+The three separate foundational examples and their interpretation limits are documented in
+[the bilingual examples guide](docs/foundational_examples.md).
 
 ## Agent Skill
 
@@ -254,7 +258,7 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.18.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+当前版本为 0.19.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
 
 核心功能：
 
@@ -321,12 +325,14 @@ uv build
 
 ```bash
 uv run python examples/ols_example.py
+uv run python examples/fixed_effects_example.py
+uv run python examples/did_example.py
 uv run python examples/panel_did_example.py
 uv run python examples/data_validation_example.py
 uv run python examples/research_workflow.py
 ```
 
-OLS 示例写入 `outputs/ols_clustered.csv`。推荐的端到端示例会在 `outputs/research_workflow` 生成设计说明、面板审计、主模型、稳健性诊断及标准元数据，详见[中英文工作流指南](docs/research_workflow.md)。仓库按 `data`、`models`、`panel`、`causal`、`diagnostics`、`results`、`reporting` 分组。
+OLS、固定效应和经典 DID 现有独立可运行示例，均导出设计说明、标准结果和针对性诊断，详见[中英文基础示例指南](docs/foundational_examples.md)。推荐的端到端示例会在 `outputs/research_workflow` 生成完整审计链，详见[工作流指南](docs/research_workflow.md)。
 
 ## Agent Skill
 
