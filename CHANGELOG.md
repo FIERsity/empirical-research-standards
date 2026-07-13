@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## 0.7.0 - 2026-07-13
+
+- Add null-imposed wild cluster bootstrap-t inference for fixed-effects coefficients.
+- Add entity-level treatment-assignment permutation inference for DID.
+- Add leave-one-cluster-out influence diagnostics for fixed-effects estimates.
+- Add Bonferroni, Holm, and Benjamini-Hochberg p-value adjustments.
+
 ## 0.6.0 - 2026-07-13
 
 - Add cohort-interacted Sun-Abraham event studies for staggered adoption.
