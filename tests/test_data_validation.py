@@ -5,7 +5,14 @@ import pandas as pd
 import pytest
 from pandas.errors import MergeError
 
-from empirical_standards.data import diagnose_panel, merge_validated
+from empirical_standards.data import (
+    ColumnRule,
+    DataValidationReport,
+    TableSchema,
+    diagnose_panel,
+    merge_validated,
+    validate_schema,
+)
 
 
 def test_balanced_panel_and_variation() -> None:
@@ -74,3 +81,64 @@ def test_missing_merge_keys_fail() -> None:
             on="id",
             relationship="many_to_one",
         )
+
+
+def test_schema_validation_and_exportable_report(tmp_path) -> None:
+    data = pd.DataFrame(
+        {
+            "id": [1, 1, 2, 2],
+            "year": [2020, 2021, 2020, 2021],
+            "outcome": [1.0, 1.2, 2.0, 2.4],
+            "treated": [0, 1, 0, 1],
+        }
+    )
+    schema = TableSchema(
+        "panel",
+        columns=(
+            ColumnRule("id", "integer"),
+            ColumnRule("year", "integer", minimum=2000, maximum=2030),
+            ColumnRule("outcome", "numeric"),
+            ColumnRule("treated", "integer", allowed=(0, 1)),
+        ),
+        unique_keys=(("id", "year"),),
+        allow_extra_columns=False,
+    )
+    schema_report = validate_schema(data, schema)
+    panel_report = diagnose_panel(data, entity="id", time="year", variables=["outcome"])
+    report = DataValidationReport(schema_report, panel_report)
+    assert schema_report.valid and report.valid
+    paths = report.export(tmp_path)
+    assert all(path.exists() for path in paths.values())
+
+
+def test_schema_reports_all_major_failures() -> None:
+    data = pd.DataFrame(
+        {
+            "id": [1, 1, 1],
+            "year": [1990, 1990, 2040],
+            "treated": [0, 2, np.nan],
+            "extra": [1, 2, 3],
+        }
+    )
+    schema = TableSchema(
+        "bad_panel",
+        columns=(
+            ColumnRule("id", "integer"),
+            ColumnRule("year", "integer", minimum=2000, maximum=2030),
+            ColumnRule("outcome", "numeric"),
+            ColumnRule("treated", "integer", allowed=(0, 1)),
+        ),
+        unique_keys=(("id", "year"),),
+        allow_extra_columns=False,
+    )
+    report = validate_schema(data, schema)
+    assert not report.valid
+    assert set(report.issues["rule"]) == {
+        "required_column",
+        "extra_columns",
+        "minimum",
+        "maximum",
+        "non_nullable",
+        "allowed_values",
+        "unique_key",
+    }

@@ -3,7 +3,14 @@
 import numpy as np
 import pandas as pd
 
-from empirical_standards.data import diagnose_panel, merge_validated
+from empirical_standards.data import (
+    ColumnRule,
+    DataValidationReport,
+    TableSchema,
+    diagnose_panel,
+    merge_validated,
+    validate_schema,
+)
 
 
 def main() -> None:
@@ -22,9 +29,26 @@ def main() -> None:
     diagnostics = diagnose_panel(
         merged.data, entity="city", time="year", variables=["outcome", "coastal"]
     )
+    schema = TableSchema(
+        "city_panel",
+        columns=(
+            ColumnRule("city", "string"),
+            ColumnRule("year", "integer", minimum=2000, maximum=2100),
+            ColumnRule("outcome", "numeric"),
+            ColumnRule("coastal", "numeric", allowed=(0.0, 1.0)),
+            ColumnRule("region", "string"),
+        ),
+        unique_keys=(("city", "year"),),
+        allow_extra_columns=False,
+    )
+    schema_report = validate_schema(merged.data, schema)
+    report = DataValidationReport(schema_report, diagnostics, merged.report)
+    paths = report.export("outputs/data_validation")
     print("Merge report:\n", merged.report)
     print("\nPanel summary:\n", diagnostics.summary().to_string())
     print("\nVariable variation:\n", diagnostics.variable_variation.to_string(index=False))
+    print("\nSchema summary:\n", schema_report.summary().to_string())
+    print("\nExported validation files:\n", "\n".join(str(path) for path in paths.values()))
 
 
 if __name__ == "__main__":

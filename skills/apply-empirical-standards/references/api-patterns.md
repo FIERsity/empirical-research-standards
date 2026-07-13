@@ -6,7 +6,14 @@ documents remain authoritative for arguments and limitations.
 ## Data audit
 
 ```python
-from empirical_standards.data import diagnose_panel, merge_validated
+from empirical_standards.data import ColumnRule, TableSchema, diagnose_panel, merge_validated, validate_schema
+
+schema = TableSchema(
+    "panel",
+    columns=(ColumnRule("city", "string"), ColumnRule("year", "integer")),
+    unique_keys=(("city", "year"),),
+)
+schema_report = validate_schema(panel, schema)
 
 merged = merge_validated(left, right, on=["city"], relationship="many_to_one")
 panel = diagnose_panel(

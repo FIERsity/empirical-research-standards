@@ -2,6 +2,12 @@
 
 All notable changes are documented here.
 
+## 0.17.0 - 2026-07-13
+
+- Add explicit dataframe schemas for column kinds, nullability, ranges, domains, and unique keys.
+- Add exportable validation reports combining schema, merge, and panel evidence.
+- Expand the runnable data-validation example and bilingual documentation.
+
 ## 0.16.0 - 2026-07-13
 
 - Add a deterministic end-to-end panel research workflow from merge audit through exports.

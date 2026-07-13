@@ -1,5 +1,32 @@
 # Data validation and panel diagnostics
 
+## Table schemas
+
+`TableSchema` and `ColumnRule` declare required columns, expected kinds, nullability, numeric
+ranges, allowed values, unique keys, and whether undeclared columns are permitted.
+`validate_schema` returns all detected issues in one report rather than failing at the first bad
+cell. It does not coerce data silently.
+
+```python
+schema = TableSchema(
+    "city_panel",
+    columns=(
+        ColumnRule("city", "string"),
+        ColumnRule("year", "integer", minimum=2000, maximum=2100),
+        ColumnRule("outcome", "numeric"),
+        ColumnRule("treated", "integer", allowed=(0, 1)),
+    ),
+    unique_keys=(("city", "year"),),
+    allow_extra_columns=False,
+)
+schema_report = validate_schema(data, schema)
+```
+
+`DataValidationReport` combines a schema result with optional merge and panel diagnostics and
+exports machine-readable JSON plus CSV issue, coverage, variation, and unmatched-key tables.
+The report is evidence about structural data quality; it does not decide whether missingness,
+sample selection, measurement, or treatment assignment is substantively valid.
+
 ## Validated merges
 
 Every merge should declare its expected key relationship: `one_to_one`, `one_to_many`,
@@ -34,3 +61,6 @@ variation deserves substantive inspection even when it is not exactly zero. A ba
 panel is not automatically preferable: deleting observations solely to force balance can
 change the target population and induce selection.
 
+## 中文说明
+
+Schema 用于事先声明列名、类型、是否允许缺失、取值范围、允许集合和唯一键；验证时一次报告全部问题，不自动修改原数据。`DataValidationReport` 可把 schema、合并和面板检查统一导出为 JSON/CSV。结构通过不等于数据在研究含义上可靠，缺失机制、样本选择、测量误差和处理分配仍需单独论证。

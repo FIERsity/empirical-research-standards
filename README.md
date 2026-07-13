@@ -8,12 +8,13 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.16.0 provides an installable Python package and a repository-distributed Agent Skill.
+Version 0.17.0 provides an installable Python package and a repository-distributed Agent Skill.
 Capabilities are grouped by maturity rather than presented as equally complete.
 
 Core building blocks:
 
-- cardinality-checked data merges and panel-structure diagnostics;
+- explicit table schemas, exportable validation reports, cardinality-checked merges, and panel
+  diagnostics;
 - validated OLS with classical, HC1, and one-way clustered covariance;
 - one-way and two-way fixed effects with robust and one-/two-way clustered covariance;
 - classic treated-by-post DID;
@@ -252,11 +253,11 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.16.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+当前版本为 0.17.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
 
 核心功能：
 
-- 带基数关系约束的数据合并与面板结构诊断；
+- 显式表级 schema、可导出验证报告、带基数约束的数据合并与面板诊断；
 - OLS，以及经典、HC1、单向聚类协方差；
 - 单向/双向固定效应，以及稳健、单向/双向聚类协方差；
 - 经典 DID；
