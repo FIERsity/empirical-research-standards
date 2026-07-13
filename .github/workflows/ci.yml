@@ -19,6 +19,7 @@ jobs:
           enable-cache: true
       - run: uv sync --locked --all-groups
       - run: uv run pytest
+      - run: uv run python skills/apply-empirical-standards/scripts/check_environment.py
       - run: uv run ruff check .
       - run: uv run mypy
       - run: uv build

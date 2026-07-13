@@ -8,7 +8,8 @@ inference choices explicit instead of hiding them behind a large framework.
 
 ## Status
 
-Version 0.11.0 currently provides:
+Version 0.12.0 currently provides two core products: the installable Python package and a
+repository-distributed Agent Skill. Together they currently provide:
 
 - cardinality-checked data merges and panel-structure diagnostics;
 - validated OLS with classical, HC1, and one-way clustered covariance;
@@ -26,6 +27,8 @@ Version 0.11.0 currently provides:
 - standardized model tables, plotting data, CSV/Excel/LaTeX exports, and reproducibility
   metadata;
 - deterministic Python-R numerical benchmarks for fixed effects and 2SLS.
+- the `apply-empirical-standards` Agent Skill for auditable data-to-result workflows, explicit
+  estimator selection, design-matched diagnostics, standardized outputs, and verification.
 
 This is a working methodological foundation, not a complete econometrics library.
 
@@ -172,6 +175,26 @@ uv run python examples/data_validation_example.py
 The OLS example writes `outputs/ols_clustered.csv`. Other examples print deterministic model
 and diagnostic results.
 
+## Agent Skill
+
+The repository includes [`apply-empirical-standards`](skills/apply-empirical-standards/SKILL.md)
+as a core product for research agents. It guides an agent through data audit, a written design
+statement, estimator selection, design-matched diagnostics, standardized exports, and
+cross-software verification. It does not automate identification claims or choose a model from
+statistical significance.
+
+Copy or symlink `skills/apply-empirical-standards` into the skill directory used by the target
+agent, then invoke `$apply-empirical-standards`. From this checkout, verify its required package
+APIs with:
+
+```bash
+uv run python skills/apply-empirical-standards/scripts/check_environment.py
+```
+
+The Skill is versioned with the package so that its workflow and API patterns can evolve with
+implemented methods. Its references use repository-relative `docs/` paths; give the agent
+access to this checkout when detailed method specifications are required.
+
 ## Repository layout
 
 ```text
@@ -187,6 +210,7 @@ tests/                    Numerical, validation, and cross-software tests
 benchmarks/               Deterministic Python/R/Stata benchmark assets
 examples/                 Runnable deterministic workflows
 docs/                     Method specifications and limitations
+skills/                   Agent workflows and progressive references
 .github/workflows/        Continuous integration
 ```
 
@@ -214,7 +238,7 @@ MIT
 
 ## 当前状态
 
-当前版本为 0.11.0，已实现：
+当前版本为 0.12.0，核心产品包括可安装 Python 包和随仓库发布的 Agent Skill，已实现：
 
 - 带基数关系约束的数据合并与面板结构诊断；
 - OLS，以及经典、HC1、单向聚类协方差；
@@ -228,6 +252,7 @@ MIT
 - Bonferroni、Holm、Benjamini-Hochberg 多重检验校正；
 - 标准模型表、绘图数据、CSV/Excel/LaTeX 导出与可复现元数据；
 - 固定效应和 2SLS 的确定性 Python-R 数值基准。
+- `apply-empirical-standards` Agent Skill：规范数据审计、估计器选择、设计匹配的诊断、标准输出和跨软件核验。
 
 这仍是方法基础，不是完整计量经济学库。
 
@@ -274,6 +299,18 @@ uv run python examples/data_validation_example.py
 ```
 
 OLS 示例写入 `outputs/ols_clustered.csv`，其余示例输出确定性模型和诊断结果。仓库按 `data`、`models`、`panel`、`causal`、`diagnostics`、`results`、`reporting` 分组；测试、跨软件基准、示例、方法文档和 CI 分别位于 `tests`、`benchmarks`、`examples`、`docs`、`.github/workflows`。
+
+## Agent Skill
+
+仓库将 [`apply-empirical-standards`](skills/apply-empirical-standards/SKILL.md) 作为核心产品：引导 Agent 依次完成数据审计、书面设计声明、估计器选择、匹配研究设计的诊断、标准导出与跨软件核验；它不会自动宣称识别成立，也不会按显著性选模型。
+
+将 `skills/apply-empirical-standards` 复制或链接到目标 Agent 的 Skill 目录后，以 `$apply-empirical-standards` 调用。当前仓库内可运行：
+
+```bash
+uv run python skills/apply-empirical-standards/scripts/check_environment.py
+```
+
+Skill 与 Python 包同步版本管理；其中详细方法链接相对于本仓库，因此需要深读规范时应让 Agent 访问本仓库。
 
 ## 后续方向
 

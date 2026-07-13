@@ -2,6 +2,15 @@
 
 All notable changes are documented here.
 
+## 0.12.0 - 2026-07-13
+
+- Add the repository-distributed `apply-empirical-standards` Agent Skill as a core product.
+- Guide agents through data audit, design declaration, estimator selection, diagnostics,
+  standardized outputs, and cross-software verification without inferring causal validity.
+- Add progressive API, method-selection, and output-checklist references plus a runnable
+  environment and public-API check.
+- Validate Skill metadata, linked resources, and required APIs in the test suite and CI.
+
 ## 0.11.0 - 2026-07-13
 
 - Add scalable pyhdfe within-transformation for high-dimensional panel IV coefficients.

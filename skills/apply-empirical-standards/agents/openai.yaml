@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apply Empirical Standards"
+  short_description: "Run transparent and reproducible empirical workflows"
+  default_prompt: "Use $apply-empirical-standards to audit my data, select an explicit estimator, run diagnostics, and export reproducible results."
