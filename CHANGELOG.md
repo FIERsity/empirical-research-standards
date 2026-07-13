@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## 0.20.0 - 2026-07-13
+
+- Rename the project to Empirical Research Standards and remove repository-level language lock-in.
+- Adopt a formal Python-first, R-capable backend policy with immediate R switch criteria.
+- Preserve Python as the default workflow, result, Agent, and machine-learning layer while
+  reserving version-locked R backends for complex reference estimators.
+
 ## 0.19.0 - 2026-07-13
 
 - Add separate auditable OLS, fixed-effects, and common-adoption DID examples.

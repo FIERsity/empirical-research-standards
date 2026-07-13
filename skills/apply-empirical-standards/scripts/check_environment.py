@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--project-root",
         type=Path,
-        help="Optional python-empirical-standards checkout containing src/.",
+        help="Optional empirical-research-standards checkout containing src/.",
     )
     return parser.parse_args()
 

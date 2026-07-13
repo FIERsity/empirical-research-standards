@@ -1,6 +1,6 @@
 ---
 name: apply-empirical-standards
-description: Apply the python-empirical-standards package to auditable empirical research workflows. Use when an agent needs to inspect research data, validate merges or panel structure, choose among OLS, fixed effects, DID, event studies, staggered DID, Sun-Abraham, IV, or panel IV, run supported diagnostics and robustness checks, export reproducible results, or prepare Python estimates for comparison with R.
+description: Apply the empirical-research-standards project to auditable Python-first empirical workflows and controlled R backends. Use when an agent needs to inspect research data, validate merges or panel structure, choose among OLS, fixed effects, DID, event-study, or IV methods, decide whether a complex estimator should switch from Python to R, run diagnostics, export reproducible results, or verify estimates across languages.
 ---
 
 # Apply Empirical Standards
@@ -9,6 +9,9 @@ Use the package as a transparent set of building blocks. Keep data roles, sample
 estimands, fixed effects, covariance choices, clustering, and omitted categories explicit.
 Never treat a successful fit or a small p-value as evidence that an identification design is
 valid.
+Read `docs/backend_policy.md` before developing or invoking an advanced estimator. Prefer the
+native Python path for foundational workflows, but switch promptly to a mature, version-locked R
+backend when faithful Python implementation would be complex or reduced. Never switch silently.
 
 ## Start safely
 
@@ -96,6 +99,6 @@ If the target research project does not depend on `empirical-standards`, add it 
 a released package or a pinned repository revision. Do not copy estimator source files into the
 research project. Record the installed version and lock the environment.
 
-If a requested method is absent, state the gap and implement it in this package only when the
-user asks for method development. Do not approximate an unsupported estimator under a familiar
-name.
+If a requested method is absent, state the gap and apply the backend policy. Do not approximate
+an unsupported estimator under a familiar name; use a mature R backend when it is the more
+reliable implementation path.

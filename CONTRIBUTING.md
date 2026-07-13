@@ -2,6 +2,10 @@
 
 Keep contributions small and auditable. Before adding an estimator, document its estimand,
 sample rules, defaults, covariance convention, failure modes, and planned Python-R comparison.
+Apply `docs/backend_policy.md` before implementation. If a mature R reference exists and a
+faithful Python implementation would require substantial specialist inference code, build a
+version-locked R backend instead. Python purity is not an acceptance criterion; correctness,
+transparency, maintainability, and a stable cross-language result contract are.
 
 Run the complete local check before opening a pull request:
 

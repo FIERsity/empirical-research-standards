@@ -1,14 +1,16 @@
-# Python Empirical Standards
+# Empirical Research Standards
 
 English documentation comes first. A concise, detail-equivalent Chinese version follows.
 
-`python-empirical-standards` is a small, transparent, and testable foundation for empirical
-research and econometric analysis in Python. It makes consequential data, model, sample, and
-inference choices explicit instead of hiding them behind a large framework.
+`empirical-research-standards` is a small, transparent, and testable foundation for empirical
+research. It is Python-first, not Python-only: Python provides the default data, workflow,
+foundational estimation, reporting, Agent, and future machine-learning layers; mature R
+implementations should be used promptly when complex statistical methods would otherwise require
+fragile or reduced Python reimplementations.
 
 ## Status
 
-Version 0.19.0 provides an installable Python package and a repository-distributed Agent Skill.
+Version 0.20.0 provides an installable Python package and a repository-distributed Agent Skill.
 Capabilities are grouped by maturity rather than presented as equally complete.
 
 Core building blocks:
@@ -53,6 +55,8 @@ This is a working methodological foundation, not a complete econometrics library
 - Independent modules that can be adopted and verified separately.
 - Small additions driven by concrete research workflows.
 - Results that can be cross-checked against R or direct Python library calls.
+- Backend choice follows methodological reliability, not language loyalty; see the
+  [backend policy](docs/backend_policy.md).
 - No causal or substantive interpretation without defensible research assumptions.
 
 The project does not choose a causal design for the researcher or replace inspection of source
@@ -232,6 +236,7 @@ benchmarks/               Deterministic Python-R benchmark assets
 examples/                 Runnable deterministic workflows
 docs/                     Method specifications and limitations
 skills/                   Agent workflows and progressive references
+r/                        Optional version-locked advanced statistical backends
 .github/workflows/        Continuous integration
 ```
 
@@ -254,11 +259,11 @@ MIT
 
 # 中文说明
 
-`python-empirical-standards` 是一套小型、透明、可测试的 Python 实证研究与计量分析基础规范。项目显式记录数据、样本、模型和推断选择，避免由大型框架隐藏关键设定。
+`empirical-research-standards` 是一套小型、透明、可测试的实证研究规范，遵循“Python-first，不是 Python-only”。Python 负责默认数据、工作流、基础计量、结果、Agent 和未来机器学习；复杂统计方法若难以在 Python 中可靠、透明地实现，应及时使用成熟 R 后端，详见[后端政策](docs/backend_policy.md)。
 
 ## 当前状态
 
-当前版本为 0.19.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
+当前版本为 0.20.0，产品包括 Python 包和 Agent Skill。功能按成熟度区分：
 
 核心功能：
 
