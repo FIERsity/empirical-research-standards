@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
+from empirical_standards.results import ModelMetadata, build_metadata
+
 CovarianceType = Literal["nonrobust", "HC1", "cluster"]
 
 
@@ -34,6 +36,7 @@ class OLSResult:
     add_intercept: bool
     cluster: str | None
     raw_result: Any
+    metadata: ModelMetadata
 
     def tidy(self, confidence_level: float = 0.95) -> pd.DataFrame:
         """Return one row per estimated term in a stable, tidy format."""
@@ -53,6 +56,28 @@ class OLSResult:
                 "conf_high": intervals.iloc[:, 1].to_numpy(),
             }
         )
+
+    def glance(self) -> pd.Series:
+        return pd.Series(
+            {
+                "estimator": "ols",
+                "nobs": self.nobs,
+                "df_model": self.df_model,
+                "df_resid": self.df_resid,
+                "r_squared": self.r_squared,
+                "adjusted_r_squared": self.adjusted_r_squared,
+                "covariance": self.covariance,
+            }
+        )
+
+    def model_spec(self) -> dict[str, Any]:
+        return self.metadata.spec.to_dict()
+
+    def sample_info(self) -> dict[str, Any]:
+        return self.metadata.sample.to_dict()
+
+    def provenance(self) -> dict[str, Any]:
+        return self.metadata.provenance.to_dict()
 
 
 def fit_ols(
@@ -153,4 +178,17 @@ def fit_ols(
         add_intercept=add_intercept,
         cluster=cluster,
         raw_result=fitted,
+        metadata=build_metadata(
+            estimator="ols",
+            outcome=outcome,
+            predictors=terms,
+            settings={
+                "add_intercept": add_intercept,
+                "covariance": covariance,
+                "cluster": cluster,
+                "drop_missing": drop_missing,
+            },
+            sample=sample,
+            original_nobs=original_nobs,
+        ),
     )

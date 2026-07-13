@@ -8,6 +8,8 @@ from typing import Literal
 import numpy as np
 import pandas as pd
 
+from empirical_standards.results import ModelMetadata, build_metadata
+
 ControlGroup = Literal["not_yet_treated", "never_treated"]
 
 
@@ -18,6 +20,31 @@ class StaggeredDIDResult:
     overall_att: float
     control_group: ControlGroup
     anticipation: int
+    metadata: ModelMetadata
+
+    def tidy(self) -> pd.DataFrame:
+        return self.group_time_effects.copy()
+
+    def glance(self) -> pd.Series:
+        return pd.Series(
+            {
+                "estimator": "staggered_did",
+                "overall_att": self.overall_att,
+                "cohort_time_effects": len(self.group_time_effects),
+                "event_times": len(self.event_time_effects),
+                "control_group": self.control_group,
+                "anticipation": self.anticipation,
+            }
+        )
+
+    def model_spec(self) -> dict[str, object]:
+        return self.metadata.spec.to_dict()
+
+    def sample_info(self) -> dict[str, object]:
+        return self.metadata.sample.to_dict()
+
+    def provenance(self) -> dict[str, object]:
+        return self.metadata.provenance.to_dict()
 
 
 def fit_staggered_did(
@@ -99,4 +126,20 @@ def fit_staggered_did(
     )
     event["att"] = event.pop("weighted") / event.pop("weight")
     overall = np.average(effects["att"], weights=effects["cohort_size"])
-    return StaggeredDIDResult(effects, event, float(overall), control_group, anticipation)
+    metadata = build_metadata(
+        estimator="staggered_did",
+        outcome=outcome,
+        predictors=(),
+        settings={
+            "entity": entity,
+            "time": time,
+            "treatment_time": treatment_time,
+            "control_group": control_group,
+            "anticipation": anticipation,
+            "balanced_panel_required": True,
+            "inference": "point_estimates_only",
+        },
+        sample=data[required],
+        original_nobs=len(data),
+    )
+    return StaggeredDIDResult(effects, event, float(overall), control_group, anticipation, metadata)

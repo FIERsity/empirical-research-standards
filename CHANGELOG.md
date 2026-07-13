@@ -2,6 +2,12 @@
 
 All notable changes are documented here.
 
+## 0.4.0 - 2026-07-13
+
+- Add shared model specification, sample information, and provenance metadata.
+- Add deterministic estimation-sample fingerprints and dependency-version capture.
+- Standardize `tidy`, `glance`, `model_spec`, `sample_info`, and `provenance` across results.
+
 ## 0.3.0 - 2026-07-13
 
 - Add cardinality-checked merges with unmatched-key reports.

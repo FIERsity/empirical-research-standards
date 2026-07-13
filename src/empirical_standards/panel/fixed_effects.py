@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 from linearmodels.panel import PanelOLS
 
+from empirical_standards.results import ModelMetadata, build_metadata
+
 PanelCovariance = Literal[
     "unadjusted", "robust", "cluster_entity", "cluster_time", "cluster_two_way"
 ]
@@ -36,6 +38,7 @@ class FixedEffectsResult:
     time_effects: bool
     covariance: PanelCovariance
     raw_result: Any
+    metadata: ModelMetadata
 
     def tidy(self) -> pd.DataFrame:
         """Return one row per estimated coefficient."""
@@ -50,6 +53,28 @@ class FixedEffectsResult:
                 "conf_high": self.confidence_intervals.iloc[:, 1].to_numpy(),
             }
         )
+
+    def glance(self) -> pd.Series:
+        return pd.Series(
+            {
+                "estimator": "fixed_effects",
+                "nobs": self.nobs,
+                "entities": self.entities,
+                "periods": self.periods,
+                "r_squared_within": self.r_squared_within,
+                "r_squared_overall": self.r_squared_overall,
+                "covariance": self.covariance,
+            }
+        )
+
+    def model_spec(self) -> dict[str, Any]:
+        return self.metadata.spec.to_dict()
+
+    def sample_info(self) -> dict[str, Any]:
+        return self.metadata.sample.to_dict()
+
+    def provenance(self) -> dict[str, Any]:
+        return self.metadata.provenance.to_dict()
 
 
 def fit_fixed_effects(
@@ -88,6 +113,7 @@ def fit_fixed_effects(
         if not pd.api.types.is_numeric_dtype(data[column]):
             raise TypeError(f"column {column!r} must be numeric")
     sample = data.loc[:, required].copy()
+    original_nobs = len(sample)
     missing_rows = sample.isna().any(axis=1)
     if missing_rows.any() and not drop_missing:
         raise ValueError("panel model columns contain missing values; set drop_missing=True")
@@ -136,4 +162,19 @@ def fit_fixed_effects(
         time_effects=time_effects,
         covariance=covariance,
         raw_result=fitted,
+        metadata=build_metadata(
+            estimator="fixed_effects",
+            outcome=outcome,
+            predictors=terms,
+            settings={
+                "entity": entity,
+                "time": time,
+                "entity_effects": entity_effects,
+                "time_effects": time_effects,
+                "covariance": covariance,
+                "drop_missing": drop_missing,
+            },
+            sample=sample,
+            original_nobs=original_nobs,
+        ),
     )
