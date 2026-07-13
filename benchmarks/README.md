@@ -14,3 +14,7 @@ conditional instrument-relevance F test and partial R-squared against nested bas
 An HC1 joint-Wald fixture is independently computed with base-R matrix algebra.
 The absorbed panel-IV fixture separately verifies the opt-in homoskedastic degrees-of-freedom
 correction against a base-R fixed-effect projection and 2SLS covariance calculation.
+
+`staggered_did/` contains a fixed panel and expected `did::att_gt`/`aggte` and `fixest::sunab`
+outputs. Its regression test detects changes in group-time and event-time estimates, standard
+errors, and confidence intervals under the locked R environment.

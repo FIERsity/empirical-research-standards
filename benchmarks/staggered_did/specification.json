@@ -1,0 +1,13 @@
+{
+  "outcome": "outcome",
+  "entity": "entity",
+  "time": "period",
+  "treatment_time": "adoption",
+  "controls": [
+    "x"
+  ],
+  "control_group": "not_yet_treated",
+  "bootstrap": false,
+  "simultaneous_band": false,
+  "confidence_level": 0.95
+}

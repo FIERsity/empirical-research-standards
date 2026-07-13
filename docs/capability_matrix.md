@@ -12,8 +12,8 @@ design or make a limited estimator equivalent to a full reference implementation
 | OLS | Classical, HC1, one-way cluster covariance | No formula interface or multi-way clustering |
 | Panel FE | Entity, time, and two-way FE; robust and one-/two-way clustering | No general multi-way HDFE estimator |
 | Classic DID | Treated-by-post TWFE with controls | Researcher must justify parallel trends and timing |
-| R staggered DID | `did::att_gt` DR/IPW/regression group-time effects and aggregation | Requires explicit R environment; identification remains design-specific |
-| R Sun--Abraham | `fixest::sunab` cohort interactions and event-time aggregation | Requires explicit R environment and declared clustering |
+| R staggered DID | `did::att_gt` DR/IPW/regression; group-time/event/cohort/calendar aggregation; support, weights, bootstrap bands, and pretrend output | Requires explicit R environment; identification remains design-specific |
+| R Sun--Abraham | `fixest::sunab` cohort-event, event, cohort, and ATT aggregation; support weights, intervals, and pretrend output | Never-treated reference cohort and declared one-way clustering |
 | Results | Tidy, glance, specification, sample, provenance, CSV/Excel/LaTeX export | Not a publication-table system |
 
 ## Advanced, with explicit limits
@@ -40,7 +40,6 @@ design or make a limited estimator equivalent to a full reference implementation
 ## Not implemented
 
 - Kleibergen-Paap rank and weak-identification statistics or critical values.
-- Native-Python doubly robust or covariate-adjusted staggered DID (available through R `did`).
 - General multi-way high-dimensional fixed effects outside the panel-IV path.
 - LIML, Fuller, JIVE, or weak-identification-robust multi-parameter IV regions.
 - Spatial econometrics, machine-learning validation workflows, data versioning, and a complete

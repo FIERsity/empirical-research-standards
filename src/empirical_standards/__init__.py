@@ -51,4 +51,4 @@ __all__ = [
     "fit_sun_abraham_r",
     "summarize_first_stage",
 ]
-__version__ = "0.21.0"
+__version__ = "0.22.0"

@@ -13,6 +13,8 @@ Before presenting an empirical result, retain or report:
   and fit statistics appropriate to the estimator;
 - diagnostic and placebo results, including failures and unsupported cells rather than only
   favorable checks;
+- for staggered treatment, cohort-time support, eligible controls, aggregation weights, reference
+  cohorts/periods, pretrend joint tests, simultaneous bands, collinear terms, and backend warnings;
 - package and dependency versions plus the command or script that generated the output;
 - cross-software comparator, exact convention alignment, tolerance, and status: passed, failed,
   or pending.

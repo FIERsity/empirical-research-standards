@@ -66,11 +66,17 @@ event = fit_event_study(
 staggered = fit_staggered_did_r(
     data, "y", treatment_time="treatment_year",
     entity="city", time="year", controls=["control"], method="dr",
+    control_group="not_yet_treated", bootstrap=True,
+    simultaneous_band=True, bootstrap_reps=999, random_state=20260713,
 )
 sun_abraham = fit_sun_abraham_r(
     data, "y", "treatment_year",
     entity="city", time="year", reference_period=-1,
 )
+print(staggered.tidy("support"))
+print(staggered.tidy("aggregation_weights"))
+print(sun_abraham.tidy("cohort_event"))
+print(sun_abraham.glance()[["pretrend_statistic", "pretrend_p_value", "warnings"]])
 ```
 
 Confirm signatures against the installed version. Treatment-cohort encoding, comparison-group

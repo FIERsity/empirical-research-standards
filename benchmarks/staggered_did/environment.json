@@ -1,0 +1,26 @@
+{
+  "staggered": {
+    "backend": "R",
+    "package": "did",
+    "r_version": "R version 4.5.2 (2025-10-31)",
+    "package_versions": {
+      "did": "2.5.1",
+      "jsonlite": "2.0.0"
+    },
+    "script": "staggered_did.R"
+  },
+  "sun_abraham": {
+    "backend": "R",
+    "package": "fixest",
+    "r_version": "R version 4.5.2 (2025-10-31)",
+    "package_versions": {
+      "fixest": "0.14.2",
+      "jsonlite": "2.0.0"
+    },
+    "script": "sun_abraham.R"
+  },
+  "expected_overall": {
+    "staggered_did": 1.809712991805265,
+    "sun_abraham": 1.765402823199234
+  }
+}

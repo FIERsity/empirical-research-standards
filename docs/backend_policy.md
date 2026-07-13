@@ -1,4 +1,4 @@
-# Backend policy: Python-first, not Python-only
+# Computational backend policy
 
 ## English
 
@@ -61,11 +61,11 @@ package names and versions, executed script, input fingerprint, and output files
 - Missing R: fail with an actionable environment message; never substitute a different Python
   estimator under the requested method name.
 
-### Current migration priorities
+### Current R backends
 
-The first R-backed candidates are staggered DID and cohort-interacted event studies. Audit the
-current Python reference implementations against mature R packages, then retain them only as
-clearly limited educational implementations or deprecate them if their behavior diverges.
+`fit_staggered_did_r` uses `did`; `fit_sun_abraham_r` uses `fixest`. Both return structured
+estimates, inference, support, weights, warnings, specifications, and version provenance. Their
+locked regression benchmark is stored under `benchmarks/staggered_did/`.
 
 ## 中文
 

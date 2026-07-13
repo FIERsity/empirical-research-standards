@@ -2,6 +2,15 @@
 
 All notable changes are documented here.
 
+## 0.22.0 - 2026-07-13
+
+- Complete the R staggered-DID contract with group-time, event, cohort, calendar, overall,
+  support, aggregation-weight, point-interval, simultaneous-band, and pretrend outputs.
+- Complete the R Sun--Abraham contract with disaggregated cohort-event effects, event/cohort/ATT
+  aggregation, confidence intervals, support weights, pretrend tests, collinearity, and warnings.
+- Add a fixed numerical benchmark, an auditable runnable example, regression tests, and updated
+  Agent Skill guidance for staggered-treatment designs.
+
 ## 0.21.0 - 2026-07-13
 
 - Add explicit research-grade R backends for `did::att_gt`/`aggte` and `fixest::sunab`.

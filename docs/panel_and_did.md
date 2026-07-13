@@ -42,6 +42,10 @@ They provide the mature package implementations and never silently fall back. Se
 [strict implementation audit](staggered_did_audit.md). The Python functions described below are
 retained as transparent educational references, not full named-method reproductions.
 
+Before interpreting an R-backed result, inspect every returned support and aggregation-weight
+table, backend warning, reference rule, and pre-period joint test. Export these components beside
+the coefficient table. Run `examples/staggered_did_r_example.py` for the complete audit pattern.
+
 `fit_staggered_did` compares each treated cohort's outcome change from its last untreated
 period with the same change among eligible controls. `not_yet_treated` is the default;
 `never_treated` is available when a stable never-treated group exists. The estimator reports

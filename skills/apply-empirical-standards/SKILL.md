@@ -1,6 +1,6 @@
 ---
 name: apply-empirical-standards
-description: Apply the empirical-research-standards project to auditable Python-first empirical workflows and controlled R backends. Use when an agent needs to inspect research data, validate merges or panel structure, choose among OLS, fixed effects, DID, event-study, or IV methods, decide whether a complex estimator should switch from Python to R, run diagnostics, export reproducible results, or verify estimates across languages.
+description: Apply the empirical-research-standards project to auditable empirical workflows with Python APIs and declared R estimator backends. Use when an agent needs to inspect research data, validate merges or panel structure, choose among OLS, fixed effects, DID, event-study, staggered-treatment, or IV methods, run design-matched diagnostics, export reproducible results, or verify estimates across languages.
 ---
 
 # Apply Empirical Standards
@@ -9,9 +9,9 @@ Use the package as a transparent set of building blocks. Keep data roles, sample
 estimands, fixed effects, covariance choices, clustering, and omitted categories explicit.
 Never treat a successful fit or a small p-value as evidence that an identification design is
 valid.
-Read `docs/backend_policy.md` before developing or invoking an advanced estimator. Prefer the
-native Python path for foundational workflows, but switch promptly to a mature, version-locked R
-backend when faithful Python implementation would be complex or reduced. Never switch silently.
+Read `docs/backend_policy.md` before developing or invoking an advanced estimator. Use the backend
+declared by the selected public API, verify its locked environment, and never substitute a
+statistically different estimator silently.
 
 ## Start safely
 
@@ -79,6 +79,11 @@ Match checks to the design. Use covariance sensitivity, placebo timing, formal h
 tests, leave-one-cluster-out, permutation inference, wild cluster bootstrap, multiple-testing
 adjustment, first-stage diagnostics, or Anderson-Rubin inference only where their assumptions
 fit the design. Distinguish specification sensitivity from identification evidence.
+
+For staggered treatment, read `docs/staggered_did_audit.md` and inspect every returned `support`
+and `aggregation_weights` table before interpreting dynamic effects. Retain group-time and
+cohort-event cells, point and simultaneous intervals, comparison-group settings, reference rules,
+pretrend tests, collinear terms, and backend warnings. Do not reduce the audit to one event plot.
 
 ### 5. Export an audit trail
 

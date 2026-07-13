@@ -37,11 +37,12 @@ def check_r_environment(packages: tuple[str, ...]) -> RBackendEnvironment:
     versions: dict[str, str | None] = {}
     for line in lines[1:]:
         package, version = line.split(maxsplit=1)
+        version = version.strip()
         versions[package] = None if version == "NOT_INSTALLED" else version
     return RBackendEnvironment(
         all(versions.get(package) is not None for package in packages),
         executable,
-        lines[0],
+        lines[0].strip(),
         versions,
     )
 

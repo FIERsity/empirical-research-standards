@@ -64,9 +64,9 @@ def test_model_selection_guide_covers_design_paths_and_stop_conditions() -> None
 def test_backend_policy_is_explicit_and_bilingual() -> None:
     policy = (ROOT / "docs" / "backend_policy.md").read_text(encoding="utf-8")
     for required in (
-        "Python-first, not Python-only",
+        "Computational backend policy",
         "Switch to R immediately",
         "Backend selection must never be silent",
-        "不是 Python-only",
+        "后端切换必须公开记录",
     ):
         assert required in policy
