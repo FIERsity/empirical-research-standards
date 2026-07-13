@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "empirical-standards"
-version = "0.7.0"
+version = "0.8.0"
 description = "Transparent, reproducible building blocks for empirical research in Python."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -22,8 +22,10 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+  "jinja2>=3.1",
   "linearmodels>=7.0",
   "numpy>=1.26",
+  "openpyxl>=3.1",
   "pandas>=2.1",
   "scipy>=1.12",
   "statsmodels>=0.14.2",

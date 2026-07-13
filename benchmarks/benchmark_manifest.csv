@@ -1,0 +1,4 @@
+software,status,version,command,result_file,coefficient_tolerance,standard_error_tolerance
+Python,verified,0.8.0,"fit_fixed_effects(..., time_effects=True, covariance='cluster_entity')",python_results.csv,1e-10,1e-8
+R fixest,verified,0.14.2,"feols with K.fixef='full', G.adj=FALSE; vcov scaled N/(N-1)",fixest_results.csv,1e-10,1e-8
+Stata reghdfe,pending,unknown,"reghdfe y x did, absorb(id time) vce(cluster id)",stata_results.csv,1e-10,1e-8

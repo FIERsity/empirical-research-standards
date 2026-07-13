@@ -2,6 +2,13 @@
 
 All notable changes are documented here.
 
+## 0.8.0 - 2026-07-13
+
+- Add a deterministic Python-R fixed-effects benchmark with explicit covariance conventions.
+- Add pending Stata reghdfe commands and a machine-readable verification manifest.
+- Add estimator-neutral coefficient, model, specification, sample, and provenance tables.
+- Add CSV, Excel, and LaTeX exports plus normalized event-study plotting data.
+
 ## 0.7.0 - 2026-07-13
 
 - Add null-imposed wild cluster bootstrap-t inference for fixed-effects coefficients.

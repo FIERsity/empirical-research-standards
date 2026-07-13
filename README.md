@@ -6,7 +6,7 @@ model choices are made instead of hiding consequential decisions behind a large 
 
 ## Status
 
-The project is at version 0.7.0. It implements validated data merges and panel diagnostics,
+The project is at version 0.8.0. It implements validated data merges and panel diagnostics,
 validated OLS, panel fixed effects, classic
 DID, dynamic event studies, and a transparent first cohort-time ATT estimator for staggered
 adoption. This remains a working foundation, not a complete econometrics library.
@@ -89,6 +89,17 @@ See [data-validation conventions](docs/data_validation.md).
 
 Every model result provides `tidy()`, `glance()`, `model_spec()`, `sample_info()`, and
 `provenance()`. See the [result metadata contract](docs/results.md).
+
+Collect and export model results without inspecting estimator internals:
+
+```python
+from empirical_standards.reporting import collect_models, export_model_collection
+
+collection = collect_models({"baseline": baseline, "twfe": twfe, "did": did})
+export_model_collection(collection, "outputs", prefix="main_results")
+```
+
+See [standardized reporting](docs/reporting.md) and the executable [cross-software benchmark](benchmarks/README.md).
 
 Run the complete example with:
 

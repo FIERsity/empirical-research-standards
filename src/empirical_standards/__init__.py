@@ -20,4 +20,4 @@ __all__ = [
     "fit_staggered_did",
     "fit_sun_abraham",
 ]
-__version__ = "0.7.0"
+__version__ = "0.8.0"
